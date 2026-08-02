@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gc
+import json
 import random
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -24,6 +25,7 @@ class PatchingConfig(StrictModel):
     schema_version: Literal[1]
     seed: int
     extraction_run: Path
+    selection_run: Path | None = None
     targets: list[FailureTarget] = Field(min_length=1)
     layer_by_target: dict[FailureTarget, int]
     max_examples_per_target: int = Field(default=67, gt=0)
@@ -72,6 +74,32 @@ def _select_examples(
     records: list[QuestionRecord],
     config: PatchingConfig,
 ) -> list[tuple[int, FailureTarget, ScoredRun]]:
+    if config.selection_run is not None:
+        with config.selection_run.open(encoding="utf-8") as handle:
+            selection_rows = json.load(handle)["rows"]
+        record_by_id = {
+            record.question.question_id: (record_index, record)
+            for record_index, record in enumerate(records)
+        }
+        selected = []
+        for target in config.targets:
+            question_ids = [row["question_id"] for row in selection_rows if row["target"] == target]
+            if len(question_ids) < config.max_examples_per_target:
+                raise ValueError(
+                    f"Selection run has only {len(question_ids)} examples for {target}"
+                )
+            if len(question_ids) != len(set(question_ids)):
+                raise ValueError(f"Selection run contains duplicate {target} question IDs")
+            for question_id in question_ids[: config.max_examples_per_target]:
+                if question_id not in record_by_id:
+                    raise ValueError(f"Selection question {question_id} is absent from extraction")
+                record_index, record = record_by_id[question_id]
+                run = next(run for run in record.runs if run.perturbation == target)
+                if not run.changed_from_clean:
+                    raise ValueError(f"Selection question {question_id} is not a {target} flip")
+                selected.append((record_index, target, run))
+        return selected
+
     rng = random.Random(config.seed)
     selected = []
     for target in config.targets:

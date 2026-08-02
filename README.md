@@ -132,6 +132,14 @@ displacement matched to the clean-patch displacement norm, and an identity patch
 identity-patched logits must match the original extraction before the experiment proceeds. Paired
 bootstrap intervals compare clean-patch restoration and margin effects against both controls.
 
+Because a terminal-state patch cannot remap an answer when reordered choices change the displayed
+letter, a paired post-hoc sensitivity patches the nearest preterminal residual state on exactly the
+same 67 reorder examples:
+
+```bash
+llm-failures patch --config configs/patching_arc_test_reorder_preterminal.yaml
+```
+
 ## Scope and leakage rules
 
 - The unit of splitting is always the original `question_id`; paired variants must never cross

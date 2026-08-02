@@ -95,9 +95,9 @@ def plot_layerwise_validation(probe_results: dict, output_path: Path) -> None:
             zorder=4,
         )
     ax.axhline(0.5, color="#333333", linewidth=1, linestyle="--", alpha=0.7)
-    ax.set_xlabel("Transformer block")
+    ax.set_xlabel("Cached hidden-state index")
     ax.set_ylabel("Validation AUROC")
-    ax.set_title("Single-layer activation probes peak in late layers")
+    ax.set_title("Single-state activation probes peak in late representations")
     ax.set_xticks(range(0, 28, 3))
     ax.legend(frameon=False, loc="upper left")
     fig.tight_layout()
