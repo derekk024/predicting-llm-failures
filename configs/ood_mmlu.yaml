@@ -1,0 +1,18 @@
+schema_version: 1
+seed: 2026
+test_run: artifacts/extraction/mmlu_test_qwen3_1.7b/qwen3-1.7b_seed314159
+probe_results: artifacts/probes/arc_validation/qwen3-1.7b_seed42/probe-results.json
+probe_models: artifacts/probes/arc_validation/qwen3-1.7b_seed42/models
+mlp_results: artifacts/mlp/arc_validation/qwen3-1.7b_seed42/mlp-results.json
+mlp_models: artifacts/mlp/arc_validation/qwen3-1.7b_seed42/models
+targets:
+  - incorrect_hint
+  - reorder_choices
+  - irrelevant_sentence
+bootstrap:
+  samples: 1000
+  confidence_level: 0.95
+calibration_bins: 10
+output:
+  root: artifacts/ood/mmlu
+  overwrite: false

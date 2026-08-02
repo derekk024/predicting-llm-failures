@@ -6,8 +6,8 @@ from typing import Any
 
 import numpy as np
 import yaml
+from pydantic import BaseModel
 
-from llm_failure_prediction.config import ExperimentConfig
 from llm_failure_prediction.schema import QuestionRecord
 
 
@@ -34,7 +34,7 @@ def write_records(path: Path, records: list[QuestionRecord]) -> None:
             handle.write("\n")
 
 
-def write_resolved_config(path: Path, config: ExperimentConfig) -> None:
+def write_resolved_config(path: Path, config: BaseModel) -> None:
     with path.open("w", encoding="utf-8") as handle:
         yaml.safe_dump(config.model_dump(mode="json"), handle, sort_keys=False)
 

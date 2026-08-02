@@ -88,3 +88,69 @@ def load_arc_questions(config: DatasetConfig, *, seed: int) -> list[Question]:
             f"Requested {config.limit} four-choice questions but found only {len(questions)}"
         )
     return questions
+
+
+def normalize_mmlu_example(
+    example: Mapping[str, Any],
+    *,
+    source_index: int,
+    dataset_path: str,
+    dataset_name: str,
+    dataset_split: str,
+) -> Question | None:
+    texts = [str(text).strip() for text in example["choices"]]
+    answer_index = int(example["answer"])
+    if len(texts) != 4 or answer_index not in range(4):
+        return None
+    subject = str(example["subject"])
+    return Question(
+        dataset_path=dataset_path,
+        dataset_name=dataset_name,
+        dataset_split=dataset_split,
+        question_id=f"mmlu:{subject}:{source_index}",
+        question=str(example["question"]).strip(),
+        choices=[
+            Choice(semantic_label=label, text=text)
+            for label, text in zip(ANSWER_LABELS, texts, strict=True)
+        ],
+        correct_semantic_label=ANSWER_LABELS[answer_index],
+    )
+
+
+def load_mmlu_questions(config: DatasetConfig, *, seed: int) -> list[Question]:
+    dataset = load_dataset(
+        config.path,
+        config.name,
+        split=config.split,
+        revision=config.revision,
+    )
+    dataset = dataset.add_column("_source_index", list(range(len(dataset))))
+    if config.shuffle:
+        dataset = dataset.shuffle(seed=seed)
+
+    questions: list[Question] = []
+    for example in dataset:
+        normalized = normalize_mmlu_example(
+            example,
+            source_index=int(example["_source_index"]),
+            dataset_path=config.path,
+            dataset_name=config.name,
+            dataset_split=config.split,
+        )
+        if normalized is not None:
+            questions.append(normalized)
+        if len(questions) == config.limit:
+            break
+    if len(questions) < config.limit:
+        raise ValueError(
+            f"Requested {config.limit} four-choice questions but found only {len(questions)}"
+        )
+    return questions
+
+
+def load_questions(config: DatasetConfig, *, seed: int) -> list[Question]:
+    if config.format == "arc":
+        return load_arc_questions(config, seed=seed)
+    if config.format == "mmlu":
+        return load_mmlu_questions(config, seed=seed)
+    raise ValueError(f"Unsupported dataset format: {config.format}")

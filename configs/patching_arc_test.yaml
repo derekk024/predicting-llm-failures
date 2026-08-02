@@ -1,0 +1,19 @@
+schema_version: 1
+seed: 42
+extraction_run: artifacts/extraction/arc_test_qwen3_1.7b/qwen3-1.7b_seed42
+targets:
+  - incorrect_hint
+  - reorder_choices
+  - irrelevant_sentence
+layer_by_target:
+  incorrect_hint: 26
+  reorder_choices: 27
+  irrelevant_sentence: 22
+max_examples_per_target: 67
+max_sanity_logit_difference: 0.01
+bootstrap:
+  samples: 1000
+  confidence_level: 0.95
+output:
+  root: artifacts/patching/arc_test
+  overwrite: false

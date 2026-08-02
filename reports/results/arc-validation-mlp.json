@@ -1,0 +1,609 @@
+{
+  "evaluation_run": "artifacts/extraction/arc_validation_qwen3_1.7b/qwen3-1.7b_seed42",
+  "probe_results": "artifacts/probes/arc_validation/qwen3-1.7b_seed42/probe-results.json",
+  "run_id": "qwen3-1.7b_seed42",
+  "schema_version": 1,
+  "targets": {
+    "incorrect_hint": {
+      "bootstrap_intervals": {
+        "auprc": [
+          0.3828576483355154,
+          0.642186556824453
+        ],
+        "auroc": [
+          0.745502581581082,
+          0.8635511080421931
+        ],
+        "brier": [
+          0.1046144895202832,
+          0.1575432367578831
+        ],
+        "ece": [
+          0.057739706961352985,
+          0.12475700728626662
+        ]
+      },
+      "margin_matched_subset": {
+        "logit_features": {
+          "auprc": 0.6392832529535749,
+          "auroc": 0.6278698979591837
+        },
+        "margin_standardized_mean_difference": -0.1248164027929306,
+        "mlp": {
+          "auprc": 0.6921044091875612,
+          "auroc": 0.6339285714285714
+        },
+        "pair_count": 56
+      },
+      "metrics": {
+        "auprc": 0.5057192322881731,
+        "auroc": 0.8085774058577406,
+        "brier": 0.1300918185013587,
+        "ece": 0.07699004013260805
+      },
+      "mlp_vs_logit_features": {
+        "bootstrap_difference_intervals": {
+          "auprc": [
+            -0.23478205123900325,
+            0.060730911541901654
+          ],
+          "auroc": [
+            -0.08998796004040349,
+            0.017412187519485787
+          ],
+          "brier": [
+            0.0010564967666211787,
+            0.04188253743955705
+          ],
+          "ece": [
+            -0.00555536524309488,
+            0.07745033133742271
+          ]
+        },
+        "difference_definition": "MLP metric minus logit-feature metric; positive favors the MLP for AUROC/AUPRC, negative favors the MLP for Brier/ECE",
+        "point_differences": {
+          "auprc": -0.08431195530605629,
+          "auroc": -0.033696951583980894,
+          "brier": 0.020812513851832817,
+          "ece": 0.03683990433164234
+        }
+      },
+      "originally_correct_subset": {
+        "logit_feature_metrics": {
+          "auprc": 0.5489514197668461,
+          "auroc": 0.8160939691444601,
+          "brier": 0.09231187253344866,
+          "ece": 0.0516429348903265
+        },
+        "mlp_metrics": {
+          "auprc": 0.3854377491753268,
+          "auroc": 0.7978611500701263,
+          "brier": 0.11610168633866037,
+          "ece": 0.07404566233167555
+        },
+        "positive_count": 31,
+        "question_count": 215
+      },
+      "selected_layers": [
+        26,
+        27,
+        25
+      ],
+      "training": {
+        "best_epoch": 0,
+        "best_evaluation_loss": 0.4578154981136322,
+        "device": "mps",
+        "epochs_completed": 21,
+        "history": [
+          {
+            "epoch": 0,
+            "evaluation_loss": 0.4578154981136322,
+            "train_loss": 0.4769367542531755
+          },
+          {
+            "epoch": 1,
+            "evaluation_loss": 0.48936042189598083,
+            "train_loss": 0.3009176179766655
+          },
+          {
+            "epoch": 2,
+            "evaluation_loss": 0.4938712418079376,
+            "train_loss": 0.25112055490414303
+          },
+          {
+            "epoch": 3,
+            "evaluation_loss": 0.5235965251922607,
+            "train_loss": 0.22104854219489628
+          },
+          {
+            "epoch": 4,
+            "evaluation_loss": 0.5754155516624451,
+            "train_loss": 0.1912308939629131
+          },
+          {
+            "epoch": 5,
+            "evaluation_loss": 0.5488506555557251,
+            "train_loss": 0.16098438907000753
+          },
+          {
+            "epoch": 6,
+            "evaluation_loss": 0.558556854724884,
+            "train_loss": 0.12940578907728195
+          },
+          {
+            "epoch": 7,
+            "evaluation_loss": 0.6101827025413513,
+            "train_loss": 0.11896466629372703
+          },
+          {
+            "epoch": 8,
+            "evaluation_loss": 0.6154679656028748,
+            "train_loss": 0.12352578072912163
+          },
+          {
+            "epoch": 9,
+            "evaluation_loss": 0.6276589035987854,
+            "train_loss": 0.09902290192743142
+          },
+          {
+            "epoch": 10,
+            "evaluation_loss": 0.6778950095176697,
+            "train_loss": 0.08780129378040631
+          },
+          {
+            "epoch": 11,
+            "evaluation_loss": 0.6973339319229126,
+            "train_loss": 0.0706101708735029
+          },
+          {
+            "epoch": 12,
+            "evaluation_loss": 0.6978302597999573,
+            "train_loss": 0.058804580527875155
+          },
+          {
+            "epoch": 13,
+            "evaluation_loss": 0.8535616397857666,
+            "train_loss": 0.04977006899813811
+          },
+          {
+            "epoch": 14,
+            "evaluation_loss": 0.8050377368927002,
+            "train_loss": 0.047119431818524994
+          },
+          {
+            "epoch": 15,
+            "evaluation_loss": 0.7583857178688049,
+            "train_loss": 0.056360118815468416
+          },
+          {
+            "epoch": 16,
+            "evaluation_loss": 0.842963695526123,
+            "train_loss": 0.03542519355606702
+          },
+          {
+            "epoch": 17,
+            "evaluation_loss": 0.8629098534584045,
+            "train_loss": 0.029844104312360287
+          },
+          {
+            "epoch": 18,
+            "evaluation_loss": 0.8773356676101685,
+            "train_loss": 0.032805651529795594
+          },
+          {
+            "epoch": 19,
+            "evaluation_loss": 0.8857964873313904,
+            "train_loss": 0.03429888876982861
+          },
+          {
+            "epoch": 20,
+            "evaluation_loss": 0.9143901467323303,
+            "train_loss": 0.032028601944653526
+          }
+        ],
+        "parameter_count": 393345
+      }
+    },
+    "irrelevant_sentence": {
+      "bootstrap_intervals": {
+        "auprc": [
+          0.41688923222018665,
+          0.6317781623937494
+        ],
+        "auroc": [
+          0.6975051503461794,
+          0.8130895053926526
+        ],
+        "brier": [
+          0.15368490431079276,
+          0.21169206400698845
+        ],
+        "ece": [
+          0.06913235838024102,
+          0.15008587731383846
+        ]
+      },
+      "margin_matched_subset": {
+        "logit_features": {
+          "auprc": 0.6007123728602104,
+          "auroc": 0.5951865873445105
+        },
+        "margin_standardized_mean_difference": -0.12514899671077728,
+        "mlp": {
+          "auprc": 0.5875806675603097,
+          "auroc": 0.5959978366684694
+        },
+        "pair_count": 86
+      },
+      "metrics": {
+        "auprc": 0.5158489399657253,
+        "auroc": 0.7583732057416268,
+        "brier": 0.18246836088301904,
+        "ece": 0.09160275833048089
+      },
+      "mlp_vs_logit_features": {
+        "bootstrap_difference_intervals": {
+          "auprc": [
+            -0.15715257616822254,
+            0.046109097717923604
+          ],
+          "auroc": [
+            -0.08628579931765053,
+            0.012776060998260896
+          ],
+          "brier": [
+            -0.004805543192076509,
+            0.03890992402112714
+          ],
+          "ece": [
+            -0.02633713677046328,
+            0.07663781358180148
+          ]
+        },
+        "difference_definition": "MLP metric minus logit-feature metric; positive favors the MLP for AUROC/AUPRC, negative favors the MLP for Brier/ECE",
+        "point_differences": {
+          "auprc": -0.056985153443548264,
+          "auroc": -0.037220429509291164,
+          "brier": 0.016238676556209974,
+          "ece": 0.02699696018053699
+        }
+      },
+      "originally_correct_subset": {
+        "logit_feature_metrics": {
+          "auprc": 0.5539491199312861,
+          "auroc": 0.8290467201510145,
+          "brier": 0.14432786338489217,
+          "ece": 0.0986615222244209
+        },
+        "mlp_metrics": {
+          "auprc": 0.5061137246375256,
+          "auroc": 0.802737140160453,
+          "brier": 0.15033206117649472,
+          "ece": 0.08116831336835244
+        },
+        "positive_count": 52,
+        "question_count": 215
+      },
+      "selected_layers": [
+        22,
+        23,
+        21
+      ],
+      "training": {
+        "best_epoch": 0,
+        "best_evaluation_loss": 0.5629265308380127,
+        "device": "mps",
+        "epochs_completed": 21,
+        "history": [
+          {
+            "epoch": 0,
+            "evaluation_loss": 0.5629265308380127,
+            "train_loss": 0.6597426186005274
+          },
+          {
+            "epoch": 1,
+            "evaluation_loss": 0.5746962428092957,
+            "train_loss": 0.5060001909732819
+          },
+          {
+            "epoch": 2,
+            "evaluation_loss": 0.6067187786102295,
+            "train_loss": 0.5094001972013049
+          },
+          {
+            "epoch": 3,
+            "evaluation_loss": 0.5658851861953735,
+            "train_loss": 0.41164397199948627
+          },
+          {
+            "epoch": 4,
+            "evaluation_loss": 0.578457772731781,
+            "train_loss": 0.3409678157832887
+          },
+          {
+            "epoch": 5,
+            "evaluation_loss": 0.5816526412963867,
+            "train_loss": 0.311756764849027
+          },
+          {
+            "epoch": 6,
+            "evaluation_loss": 0.6212996244430542,
+            "train_loss": 0.2867380869057443
+          },
+          {
+            "epoch": 7,
+            "evaluation_loss": 0.6508068442344666,
+            "train_loss": 0.2781699018345939
+          },
+          {
+            "epoch": 8,
+            "evaluation_loss": 0.5935298800468445,
+            "train_loss": 0.25315653284390766
+          },
+          {
+            "epoch": 9,
+            "evaluation_loss": 0.6272595524787903,
+            "train_loss": 0.22362567318810356
+          },
+          {
+            "epoch": 10,
+            "evaluation_loss": 0.6369242072105408,
+            "train_loss": 0.18159951393802962
+          },
+          {
+            "epoch": 11,
+            "evaluation_loss": 0.6971458792686462,
+            "train_loss": 0.1630854308605194
+          },
+          {
+            "epoch": 12,
+            "evaluation_loss": 0.689132034778595,
+            "train_loss": 0.14991357922554016
+          },
+          {
+            "epoch": 13,
+            "evaluation_loss": 0.758394181728363,
+            "train_loss": 0.13797984934515423
+          },
+          {
+            "epoch": 14,
+            "evaluation_loss": 0.7471411824226379,
+            "train_loss": 0.11727131737603082
+          },
+          {
+            "epoch": 15,
+            "evaluation_loss": 0.7821003794670105,
+            "train_loss": 0.11857318257292111
+          },
+          {
+            "epoch": 16,
+            "evaluation_loss": 0.8571761846542358,
+            "train_loss": 0.11030662556489308
+          },
+          {
+            "epoch": 17,
+            "evaluation_loss": 0.8343172669410706,
+            "train_loss": 0.08997164894309309
+          },
+          {
+            "epoch": 18,
+            "evaluation_loss": 0.8185364007949829,
+            "train_loss": 0.08022937406268385
+          },
+          {
+            "epoch": 19,
+            "evaluation_loss": 0.8066086173057556,
+            "train_loss": 0.0715138456887669
+          },
+          {
+            "epoch": 20,
+            "evaluation_loss": 0.9204436540603638,
+            "train_loss": 0.08407556472553147
+          }
+        ],
+        "parameter_count": 393345
+      }
+    },
+    "reorder_choices": {
+      "bootstrap_intervals": {
+        "auprc": [
+          0.29966676503103096,
+          0.5532230661713238
+        ],
+        "auroc": [
+          0.7154629495306895,
+          0.8462604996645621
+        ],
+        "brier": [
+          0.10958438225807936,
+          0.16255298187224937
+        ],
+        "ece": [
+          0.048186659893815556,
+          0.11523774513492874
+        ]
+      },
+      "margin_matched_subset": {
+        "logit_features": {
+          "auprc": 0.5151064140065162,
+          "auroc": 0.5120027434842249
+        },
+        "margin_standardized_mean_difference": -0.06934387236833572,
+        "mlp": {
+          "auprc": 0.5730645445364156,
+          "auroc": 0.5730452674897119
+        },
+        "pair_count": 54
+      },
+      "metrics": {
+        "auprc": 0.41762857109927554,
+        "auroc": 0.788765944367604,
+        "brier": 0.13397856721297885,
+        "ece": 0.06399739047061549
+      },
+      "mlp_vs_logit_features": {
+        "bootstrap_difference_intervals": {
+          "auprc": [
+            -0.18582341257912996,
+            0.05816813747596096
+          ],
+          "auroc": [
+            -0.08174910288863577,
+            0.001063768022101494
+          ],
+          "brier": [
+            0.0024166104971730233,
+            0.03499568432864214
+          ],
+          "ece": [
+            -0.018033331504915547,
+            0.07248559690586605
+          ]
+        },
+        "difference_definition": "MLP metric minus logit-feature metric; positive favors the MLP for AUROC/AUPRC, negative favors the MLP for Brier/ECE",
+        "point_differences": {
+          "auprc": -0.05252735990609325,
+          "auroc": -0.039034885507914674,
+          "brier": 0.018548023626447016,
+          "ece": 0.033971420736139
+        }
+      },
+      "originally_correct_subset": {
+        "logit_feature_metrics": {
+          "auprc": 0.2811913161463587,
+          "auroc": 0.8338973491257754,
+          "brier": 0.07102070619919788,
+          "ece": 0.058599825640772145
+        },
+        "mlp_metrics": {
+          "auprc": 0.19761081570083863,
+          "auroc": 0.7856739988719683,
+          "brier": 0.09434452875646998,
+          "ece": 0.06192379873046289
+        },
+        "positive_count": 18,
+        "question_count": 215
+      },
+      "selected_layers": [
+        27,
+        26,
+        25
+      ],
+      "training": {
+        "best_epoch": 0,
+        "best_evaluation_loss": 0.4263226389884949,
+        "device": "mps",
+        "epochs_completed": 21,
+        "history": [
+          {
+            "epoch": 0,
+            "evaluation_loss": 0.4263226389884949,
+            "train_loss": 0.5094314979182349
+          },
+          {
+            "epoch": 1,
+            "evaluation_loss": 0.47860246896743774,
+            "train_loss": 0.3754955033461253
+          },
+          {
+            "epoch": 2,
+            "evaluation_loss": 0.43771588802337646,
+            "train_loss": 0.28686818811628556
+          },
+          {
+            "epoch": 3,
+            "evaluation_loss": 0.5007578730583191,
+            "train_loss": 0.2467876954211129
+          },
+          {
+            "epoch": 4,
+            "evaluation_loss": 0.5153939127922058,
+            "train_loss": 0.21398018507493866
+          },
+          {
+            "epoch": 5,
+            "evaluation_loss": 0.5345390439033508,
+            "train_loss": 0.16620436145199668
+          },
+          {
+            "epoch": 6,
+            "evaluation_loss": 0.6372212171554565,
+            "train_loss": 0.15393411119778952
+          },
+          {
+            "epoch": 7,
+            "evaluation_loss": 0.6320016384124756,
+            "train_loss": 0.12415976325670879
+          },
+          {
+            "epoch": 8,
+            "evaluation_loss": 0.65160071849823,
+            "train_loss": 0.09849002812471655
+          },
+          {
+            "epoch": 9,
+            "evaluation_loss": 0.6797217130661011,
+            "train_loss": 0.09488470976551373
+          },
+          {
+            "epoch": 10,
+            "evaluation_loss": 0.6890474557876587,
+            "train_loss": 0.07778733202980624
+          },
+          {
+            "epoch": 11,
+            "evaluation_loss": 0.718292772769928,
+            "train_loss": 0.07368059404608276
+          },
+          {
+            "epoch": 12,
+            "evaluation_loss": 0.8365118503570557,
+            "train_loss": 0.06897393138044411
+          },
+          {
+            "epoch": 13,
+            "evaluation_loss": 0.7253517508506775,
+            "train_loss": 0.06669673468503687
+          },
+          {
+            "epoch": 14,
+            "evaluation_loss": 0.7998496294021606,
+            "train_loss": 0.046320622579918966
+          },
+          {
+            "epoch": 15,
+            "evaluation_loss": 0.9080339074134827,
+            "train_loss": 0.051609970525734954
+          },
+          {
+            "epoch": 16,
+            "evaluation_loss": 0.9055823087692261,
+            "train_loss": 0.040410411544144154
+          },
+          {
+            "epoch": 17,
+            "evaluation_loss": 0.9276671409606934,
+            "train_loss": 0.04268821504794889
+          },
+          {
+            "epoch": 18,
+            "evaluation_loss": 1.0251377820968628,
+            "train_loss": 0.044278993271291256
+          },
+          {
+            "epoch": 19,
+            "evaluation_loss": 0.9349106550216675,
+            "train_loss": 0.04085642932396796
+          },
+          {
+            "epoch": 20,
+            "evaluation_loss": 1.0256258249282837,
+            "train_loss": 0.03030653504861726
+          }
+        ],
+        "parameter_count": 393345
+      }
+    }
+  },
+  "train_run": "artifacts/extraction/arc_train_qwen3_1.7b/qwen3-1.7b_seed42"
+}

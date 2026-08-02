@@ -5,7 +5,7 @@ controlled prompt perturbation, beyond what its output confidence already reveal
 
 This repository starts with a local-first ARC pilot for `Qwen/Qwen3-0.6B`. It scores the next-token
 logits for `A/B/C/D`, disables Qwen thinking mode, creates three paired perturbations, and caches
-only the clean prompt's final-position residual stream after every transformer block.
+only the clean prompt's final-position hidden states (excluding embeddings).
 
 ## Pilot design
 
@@ -47,13 +47,103 @@ Then run the configured 200-question pilot:
 llm-failures pilot --config configs/pilot_arc.yaml
 ```
 
+Compare the bare-letter scoring prompt with an explicit answer cue on both development and final
+model sizes. This gate uses 100 ARC validation questions and does not touch the test split:
+
+```bash
+llm-failures model-gate --config configs/prompt_model_gate.yaml
+```
+
+After extracting the frozen ARC train and validation configurations, fit calibrated confidence
+baselines and one logistic-regression probe per cached hidden-state index:
+
+```bash
+llm-failures probe --config configs/probes_arc_validation.yaml
+```
+
+The probe command reports AUROC, AUPRC, Brier score, expected calibration error, bootstrap
+intervals for the main comparisons, and metrics on the originally-correct subset. It saves the
+fitted confidence models and validation-selected layer probe for held-out evaluation. Paired
+bootstrap intervals directly compare the selected activation probe against the combined
+logit-feature baseline on the same questions. A separate 1:1 nearest-neighbor diagnostic compares
+discrimination after matching flipped and non-flipped examples on clean top-two logit margin.
+
+Train the planned small PyTorch MLP over the top three validation-selected activation layers:
+
+```bash
+llm-failures mlp --config configs/mlp_arc_validation.yaml
+```
+
+The MLP uses train-only feature standardization, dropout, weight decay, and validation-loss early
+stopping. It saves the selected layers, normalization statistics, and best model checkpoint for a
+single frozen evaluation on ARC test.
+
+After all model and layer choices are frozen, evaluate the saved artifacts once on ARC test without
+refitting or reselection:
+
+```bash
+llm-failures heldout --config configs/heldout_arc_test.yaml
+```
+
 Artifacts are excluded from Git and written below `artifacts/pilot_arc/`. A run manifest records
 the resolved Hugging Face commit, package versions, answer token IDs, device, activation shape,
 and elapsed time. The default config also pins the model and ARC dataset repository commits.
 
 The completed Week 1 run and its main caveat are recorded in
 [`reports/week1-pilot.md`](reports/week1-pilot.md). The 0.6B model has a strong answer-position bias,
-so prompt-format and 1.7B comparisons are the next gate before scaling the dataset.
+so prompt-format and 1.7B comparisons were required before scaling the dataset. The completed
+[`prompt/model gate`](reports/prompt-model-gate.md) selected Qwen3-1.7B with the bare-letter prompt;
+pinned train, validation, and test extraction configs are under `configs/extraction/`.
+
+The first [`ARC validation probe report`](reports/arc-validation-probes.md) is a negative result:
+single-layer activation probes predict flips above chance but underperform combined logit features
+for all three perturbations. At that stage, the ARC test split remained untouched while the
+late-layer MLP and no-refit evaluator were frozen.
+
+The frozen [`held-out ARC report`](reports/arc-heldout-results.md) finds that the late-layer MLP
+nearly matches, but does not beat, combined logit features on the natural test distribution. A
+predeclared margin-matched diagnostic finds a narrower positive result for choice reordering.
+
+![Held-out AUROC comparison](reports/figures/heldout-auroc.png)
+
+Machine-readable summaries for the prompt gate, validation probes, validation MLP, and held-out
+evaluation are tracked under [`reports/results/`](reports/results/).
+
+The out-of-domain configuration evaluates the frozen ARC-trained models on a pinned 500-question
+sample from MMLU without retraining:
+
+```bash
+llm-failures pilot --config configs/extraction/mmlu_test_qwen3_1.7b.yaml
+llm-failures heldout --config configs/ood_mmlu.yaml
+```
+
+The [`MMLU transfer report`](reports/mmlu-transfer.md) finds that activation predictors remain above
+chance but do not outperform frozen ARC-trained logit baselines out of domain.
+
+Run the controlled causal follow-up on 201 flipped ARC prompt pairs (67 per perturbation):
+
+```bash
+llm-failures patch --config configs/patching_arc_test.yaml
+```
+
+The command patches the clean final-position state into the perturbed replay at one
+validation-selected location per target. It also runs an unrelated-question patch, a random
+displacement matched to the clean-patch displacement norm, and an identity patch. Replayed and
+identity-patched logits must match the original extraction before the experiment proceeds. Paired
+bootstrap intervals compare clean-patch restoration and margin effects against both controls.
+
+The completed [`activation-patching report`](reports/activation-patching.md) finds strong controlled
+answer-restoration effects for incorrect hints and irrelevant context, but not for semantically
+remapped reordered choices. This causal intervention result is intentionally kept separate from
+the project's negative predictive comparison against output-confidence features.
+
+Because a terminal-state patch cannot remap an answer when reordered choices change the displayed
+letter, a paired post-hoc sensitivity patches the nearest preterminal residual state on exactly the
+same 67 reorder examples:
+
+```bash
+llm-failures patch --config configs/patching_arc_test_reorder_preterminal.yaml
+```
 
 ## Scope and leakage rules
 
@@ -63,8 +153,8 @@ so prompt-format and 1.7B comparisons are the next gate before scaling the datas
 - Entropy is computed over the normalized four-answer distribution, and margin is the difference
   between the largest two answer logits.
 - Perturbation strength must be selected using validation data, never the held-out evaluation set.
-- Activation patching is a later follow-up and requires unrelated-activation and norm-matched-noise
-  controls before any causal claim.
+- Activation patching requires unrelated-activation and norm-matched-noise controls; intervention
+  results are not automatically evidence for a broad causal mechanism.
 
 ## Roadmap
 

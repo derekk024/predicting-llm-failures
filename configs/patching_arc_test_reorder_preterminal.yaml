@@ -1,0 +1,16 @@
+schema_version: 1
+seed: 42
+extraction_run: artifacts/extraction/arc_test_qwen3_1.7b/qwen3-1.7b_seed42
+selection_run: artifacts/patching/arc_test/qwen3-1.7b_seed42/patching-results.json
+targets:
+  - reorder_choices
+layer_by_target:
+  reorder_choices: 26
+max_examples_per_target: 67
+max_sanity_logit_difference: 0.01
+bootstrap:
+  samples: 1000
+  confidence_level: 0.95
+output:
+  root: artifacts/patching/arc_test_reorder_preterminal
+  overwrite: false

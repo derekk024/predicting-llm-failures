@@ -1,4 +1,4 @@
-from llm_failure_prediction.data import normalize_arc_example
+from llm_failure_prediction.data import normalize_arc_example, normalize_mmlu_example
 
 
 def test_normalizes_non_letter_source_labels() -> None:
@@ -38,3 +38,22 @@ def test_skips_questions_without_four_choices() -> None:
         )
         is None
     )
+
+
+def test_normalizes_mmlu_example_with_stable_source_id() -> None:
+    example = {
+        "question": "Which answer?",
+        "subject": "test_subject",
+        "choices": ["one", "two", "three", "four"],
+        "answer": 2,
+    }
+    question = normalize_mmlu_example(
+        example,
+        source_index=17,
+        dataset_path="cais/mmlu",
+        dataset_name="all",
+        dataset_split="test",
+    )
+    assert question is not None
+    assert question.question_id == "mmlu:test_subject:17"
+    assert question.correct_semantic_label == "C"

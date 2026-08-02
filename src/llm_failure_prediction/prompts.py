@@ -18,9 +18,10 @@ def render_chat_prompt(tokenizer, user_prompt: str, config: PromptConfig, *, ena
         {"role": "system", "content": config.system},
         {"role": "user", "content": user_prompt},
     ]
-    return tokenizer.apply_chat_template(
+    rendered = tokenizer.apply_chat_template(
         messages,
         tokenize=False,
         add_generation_prompt=True,
         enable_thinking=enable_thinking,
     )
+    return f"{rendered}{config.assistant_prefill}"

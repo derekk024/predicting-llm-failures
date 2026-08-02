@@ -30,11 +30,13 @@ original choice identity. `changed_from_clean` is computed only after this mappi
 
 `activations.npz` contains:
 
-- `activations`: `[question, transformer_block, hidden_dimension]`, stored as float16 by default;
+- `activations`: `[question, hidden_state_index, hidden_dimension]`, stored as float16 by default;
 - `question_ids`: the row alignment key; and
-- `layer_indices`: zero-based transformer-block indices.
+- `layer_indices`: zero-based cached hidden-state indices.
 
-The embedding output (`hidden_states[0]`) is excluded. Each cached vector is the output of one
-transformer block at the final position of the fully rendered clean prompt. Perturbed activations
-are neither cached nor used as probe inputs.
-
+The embedding output (`hidden_states[0]`) is excluded. For an `N`-block Qwen model, cached indices
+`0` through `N-2` are the outputs of blocks `0` through `N-2`; cached index `N-1` is the terminal
+normalized hidden state returned after the final block. This matches Hugging Face's
+`output_hidden_states` contract but means the final cached feature is not a pre-normalization
+residual-stream vector. Every vector is taken at the final position of the fully rendered clean
+prompt. Perturbed activations are neither cached nor used as probe inputs.
