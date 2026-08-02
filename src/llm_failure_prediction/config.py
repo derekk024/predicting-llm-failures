@@ -14,6 +14,7 @@ class StrictModel(BaseModel):
 
 
 class DatasetConfig(StrictModel):
+    format: Literal["arc", "mmlu"] = "arc"
     path: str
     name: str
     split: str

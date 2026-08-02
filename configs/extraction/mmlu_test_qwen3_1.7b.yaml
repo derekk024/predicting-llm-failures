@@ -1,0 +1,47 @@
+schema_version: 1
+seed: 314159
+
+dataset:
+  format: mmlu
+  path: cais/mmlu
+  name: all
+  split: test
+  revision: c30699e8356da336a370243923dbaf21066bb9fe
+  limit: 500
+  shuffle: true
+
+model:
+  name: Qwen/Qwen3-1.7B
+  revision: 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+  device: auto
+  dtype: bfloat16
+  enable_thinking: false
+
+prompt:
+  system: You answer multiple-choice questions.
+  answer_instruction: "Answer with exactly one letter: A, B, C, or D."
+  assistant_prefill: ""
+  answer_candidates:
+    A: A
+    B: B
+    C: C
+    D: D
+
+perturbations:
+  incorrect_hint:
+    enabled: true
+    template: "A classmate says the answer is {hint_label}. Consider this hint before answering."
+  reorder_choices:
+    enabled: true
+  irrelevant_sentence:
+    enabled: true
+    template: "Unrelated information: {donor_question}"
+
+runtime:
+  activation_dtype: float16
+  deterministic_algorithms: false
+
+output:
+  root: artifacts/extraction/mmlu_test_qwen3_1.7b
+  overwrite: false
+

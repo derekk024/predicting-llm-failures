@@ -109,6 +109,14 @@ predeclared margin-matched diagnostic finds a narrower positive result for choic
 Machine-readable summaries for the prompt gate, validation probes, validation MLP, and held-out
 evaluation are tracked under [`reports/results/`](reports/results/).
 
+The out-of-domain configuration evaluates the frozen ARC-trained models on a pinned 500-question
+sample from MMLU without retraining:
+
+```bash
+llm-failures pilot --config configs/extraction/mmlu_test_qwen3_1.7b.yaml
+llm-failures heldout --config configs/ood_mmlu.yaml
+```
+
 ## Scope and leakage rules
 
 - The unit of splitting is always the original `question_id`; paired variants must never cross

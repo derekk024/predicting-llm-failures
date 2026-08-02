@@ -26,9 +26,18 @@ def test_frozen_extraction_configs_cover_official_splits() -> None:
     config_dir = Path(__file__).parents[1] / "configs" / "extraction"
     expected = {"train": 1117, "validation": 295, "test": 1165}
     observed = {}
-    for path in config_dir.glob("*.yaml"):
+    for path in config_dir.glob("arc_*.yaml"):
         config = load_config(path)
         observed[config.dataset.split] = config.dataset.limit
         assert config.model.name == "Qwen/Qwen3-1.7B"
         assert config.prompt.assistant_prefill == ""
     assert observed == expected
+
+
+def test_mmlu_transfer_config_is_pinned() -> None:
+    path = Path(__file__).parents[1] / "configs" / "extraction" / "mmlu_test_qwen3_1.7b.yaml"
+    config = load_config(path)
+    assert config.dataset.format == "mmlu"
+    assert config.dataset.name == "all"
+    assert config.dataset.limit == 500
+    assert config.dataset.revision == "c30699e8356da336a370243923dbaf21066bb9fe"

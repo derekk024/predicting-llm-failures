@@ -16,7 +16,7 @@ import transformers
 from datasets import __version__ as datasets_version
 
 from llm_failure_prediction.config import ExperimentConfig
-from llm_failure_prediction.data import load_arc_questions
+from llm_failure_prediction.data import load_questions
 from llm_failure_prediction.io import (
     prepare_run_directory,
     write_activation_cache,
@@ -113,7 +113,7 @@ def run_pilot(config: ExperimentConfig, *, run_id: str | None = None) -> Path:
     write_resolved_config(run_dir / "config.resolved.yaml", config)
 
     started = time.perf_counter()
-    questions = load_arc_questions(config.dataset, seed=config.seed)
+    questions = load_questions(config.dataset, seed=config.seed)
     model = MultipleChoiceModel(config.model, config.prompt.answer_candidates)
     records: list[QuestionRecord] = []
     activation_rows: list[np.ndarray] = []
