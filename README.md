@@ -47,13 +47,22 @@ Then run the configured 200-question pilot:
 llm-failures pilot --config configs/pilot_arc.yaml
 ```
 
+Compare the bare-letter scoring prompt with an explicit answer cue on both development and final
+model sizes. This gate uses 100 ARC validation questions and does not touch the test split:
+
+```bash
+llm-failures model-gate --config configs/prompt_model_gate.yaml
+```
+
 Artifacts are excluded from Git and written below `artifacts/pilot_arc/`. A run manifest records
 the resolved Hugging Face commit, package versions, answer token IDs, device, activation shape,
 and elapsed time. The default config also pins the model and ARC dataset repository commits.
 
 The completed Week 1 run and its main caveat are recorded in
 [`reports/week1-pilot.md`](reports/week1-pilot.md). The 0.6B model has a strong answer-position bias,
-so prompt-format and 1.7B comparisons are the next gate before scaling the dataset.
+so prompt-format and 1.7B comparisons were required before scaling the dataset. The completed
+[`prompt/model gate`](reports/prompt-model-gate.md) selected Qwen3-1.7B with the bare-letter prompt;
+pinned train, validation, and test extraction configs are under `configs/extraction/`.
 
 ## Scope and leakage rules
 

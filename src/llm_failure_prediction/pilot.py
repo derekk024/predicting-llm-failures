@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gc
 import platform
 import random
 import subprocess
@@ -113,7 +114,7 @@ def run_pilot(config: ExperimentConfig, *, run_id: str | None = None) -> Path:
 
     started = time.perf_counter()
     questions = load_arc_questions(config.dataset, seed=config.seed)
-    model = MultipleChoiceModel(config.model)
+    model = MultipleChoiceModel(config.model, config.prompt.answer_candidates)
     records: list[QuestionRecord] = []
     activation_rows: list[np.ndarray] = []
 
@@ -222,6 +223,7 @@ def run_pilot(config: ExperimentConfig, *, run_id: str | None = None) -> Path:
             "dataset_split": config.dataset.split,
             "requested_dataset_revision": config.dataset.revision,
             "answer_token_ids": model.answer_token_ids,
+            "answer_candidates": config.prompt.answer_candidates,
             "activation_shape": list(activation_array.shape),
             "activation_dtype": str(activation_array.dtype),
             "activation_semantics": (
@@ -229,4 +231,8 @@ def run_pilot(config: ExperimentConfig, *, run_id: str | None = None) -> Path:
             ),
         },
     )
+    del model
+    gc.collect()
+    if torch.backends.mps.is_available():
+        torch.mps.empty_cache()
     return run_dir

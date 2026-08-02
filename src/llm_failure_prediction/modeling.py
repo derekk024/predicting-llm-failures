@@ -43,8 +43,9 @@ def resolve_device(requested: str) -> torch.device:
 
 
 class MultipleChoiceModel:
-    def __init__(self, config: ModelConfig):
+    def __init__(self, config: ModelConfig, answer_candidates: dict[AnswerLabel, str]):
         self.config = config
+        self.answer_candidates = answer_candidates
         self.device = resolve_device(config.device)
         dtype = DTYPES[config.dtype]
         if self.device.type == "cpu" and dtype == torch.float16:
@@ -68,10 +69,12 @@ class MultipleChoiceModel:
     def _answer_token_ids(self) -> dict[AnswerLabel, int]:
         ids: dict[AnswerLabel, int] = {}
         for label in ANSWER_LABELS:
-            token_ids = self.tokenizer.encode(label, add_special_tokens=False)
+            candidate = self.answer_candidates[label]
+            token_ids = self.tokenizer.encode(candidate, add_special_tokens=False)
             if len(token_ids) != 1:
                 raise ValueError(
-                    f"Answer label {label!r} maps to {len(token_ids)} tokens; "
+                    f"Answer candidate {candidate!r} for label {label} maps to "
+                    f"{len(token_ids)} tokens; "
                     "single-step answer-logit scoring is invalid for this tokenizer"
                 )
             ids[label] = token_ids[0]
