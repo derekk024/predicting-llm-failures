@@ -1,0 +1,2114 @@
+{
+  "activation_shape_train": [
+    1117,
+    28,
+    2048
+  ],
+  "evaluation_questions": 295,
+  "evaluation_run": "artifacts/extraction/arc_validation_qwen3_1.7b/qwen3-1.7b_seed42",
+  "logit_feature_names": [
+    "centered_logit_A",
+    "centered_logit_B",
+    "centered_logit_C",
+    "centered_logit_D",
+    "entropy",
+    "top_two_logit_margin"
+  ],
+  "run_id": "qwen3-1.7b_seed42",
+  "schema_version": 1,
+  "targets": {
+    "incorrect_hint": {
+      "activation_vs_logit_features": {
+        "bootstrap_difference_intervals": {
+          "auprc": [
+            -0.364738087324947,
+            -0.10613180490283083
+          ],
+          "auroc": [
+            -0.18611205067588046,
+            -0.05876604498184988
+          ],
+          "brier": [
+            0.036014190306344944,
+            0.09537334990991014
+          ],
+          "ece": [
+            0.06822080515031333,
+            0.16204820321418503
+          ]
+        },
+        "difference_definition": "activation metric minus logit-feature metric; positive favors activations for AUROC/AUPRC, negative favors activations for Brier/ECE",
+        "point_differences": {
+          "auprc": -0.23716022754542393,
+          "auroc": -0.12006873879258828,
+          "brier": 0.06466868465016885,
+          "ece": 0.12095135247433822
+        }
+      },
+      "baselines": {
+        "entropy": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.42265390480469217,
+              0.6810907781516338
+            ],
+            "auroc": [
+              0.7938852134234079,
+              0.8959448252985404
+            ],
+            "brier": [
+              0.11219816227453709,
+              0.1655423748961636
+            ],
+            "ece": [
+              0.01696865834619774,
+              0.06658692214798678
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 1,
+              "count": 262,
+              "mean_predicted_probability": 0.14268420107847143,
+              "observed_failure_rate": 0.1450381679389313
+            },
+            {
+              "bin": 2,
+              "count": 9,
+              "mean_predicted_probability": 0.23782743962026412,
+              "observed_failure_rate": 0.4444444444444444
+            },
+            {
+              "bin": 3,
+              "count": 2,
+              "mean_predicted_probability": 0.34057334037025433,
+              "observed_failure_rate": 1.0
+            },
+            {
+              "bin": 4,
+              "count": 12,
+              "mean_predicted_probability": 0.43635282264364,
+              "observed_failure_rate": 0.5
+            },
+            {
+              "bin": 5,
+              "count": 4,
+              "mean_predicted_probability": 0.5359234848638701,
+              "observed_failure_rate": 0.5
+            },
+            {
+              "bin": 6,
+              "count": 5,
+              "mean_predicted_probability": 0.663601320184762,
+              "observed_failure_rate": 0.6
+            },
+            {
+              "bin": 7,
+              "count": 1,
+              "mean_predicted_probability": 0.7203010736773902,
+              "observed_failure_rate": 1.0
+            }
+          ],
+          "metrics": {
+            "auprc": 0.535324251475992,
+            "auroc": 0.8461969515839809,
+            "brier": 0.13823420953756654,
+            "ece": 0.017967156864731583
+          }
+        },
+        "logit_features": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.46131317267967675,
+              0.736484298990994
+            ],
+            "auroc": [
+              0.7695623719775628,
+              0.8985498104275441
+            ],
+            "brier": [
+              0.08895389973879904,
+              0.1330677445039432
+            ],
+            "ece": [
+              0.0323555968396685,
+              0.08520461285042383
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 0,
+              "count": 157,
+              "mean_predicted_probability": 0.041208220002098804,
+              "observed_failure_rate": 0.05732484076433121
+            },
+            {
+              "bin": 1,
+              "count": 37,
+              "mean_predicted_probability": 0.14949449899352,
+              "observed_failure_rate": 0.08108108108108109
+            },
+            {
+              "bin": 2,
+              "count": 19,
+              "mean_predicted_probability": 0.2447689155208162,
+              "observed_failure_rate": 0.15789473684210525
+            },
+            {
+              "bin": 3,
+              "count": 31,
+              "mean_predicted_probability": 0.3524278210768095,
+              "observed_failure_rate": 0.3225806451612903
+            },
+            {
+              "bin": 4,
+              "count": 20,
+              "mean_predicted_probability": 0.4433892255376655,
+              "observed_failure_rate": 0.45
+            },
+            {
+              "bin": 5,
+              "count": 18,
+              "mean_predicted_probability": 0.541924641941188,
+              "observed_failure_rate": 0.7222222222222222
+            },
+            {
+              "bin": 6,
+              "count": 10,
+              "mean_predicted_probability": 0.6433343072218658,
+              "observed_failure_rate": 0.7
+            },
+            {
+              "bin": 7,
+              "count": 3,
+              "mean_predicted_probability": 0.7541944761636351,
+              "observed_failure_rate": 0.6666666666666666
+            }
+          ],
+          "metrics": {
+            "auprc": 0.5900311875942293,
+            "auroc": 0.8422743574417215,
+            "brier": 0.10927930464952589,
+            "ece": 0.04015013580096571
+          }
+        },
+        "majority": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.1423728813559322,
+              0.23389830508474577
+            ],
+            "auroc": [
+              0.5,
+              0.5
+            ],
+            "brier": [
+              0.12297404458311682,
+              0.18303504332369006
+            ],
+            "ece": [
+              0.0009923675705202917,
+              0.062009316723062674
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 1,
+              "count": 295,
+              "mean_predicted_probability": 0.1718889883616831,
+              "observed_failure_rate": 0.18983050847457628
+            }
+          ],
+          "metrics": {
+            "auprc": 0.18983050847457628,
+            "auroc": 0.5,
+            "brier": 0.15411678467082146,
+            "ece": 0.017941520112893183
+          }
+        },
+        "margin": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.40518413172190815,
+              0.6704699193145077
+            ],
+            "auroc": [
+              0.7922643608172373,
+              0.8999617080095635
+            ],
+            "brier": [
+              0.09206002307409465,
+              0.13530291176762846
+            ],
+            "ece": [
+              0.0314663493446278,
+              0.09137618034128422
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 0,
+              "count": 147,
+              "mean_predicted_probability": 0.05438739327197173,
+              "observed_failure_rate": 0.04081632653061224
+            },
+            {
+              "bin": 1,
+              "count": 52,
+              "mean_predicted_probability": 0.14220994128577233,
+              "observed_failure_rate": 0.09615384615384616
+            },
+            {
+              "bin": 2,
+              "count": 25,
+              "mean_predicted_probability": 0.2510304721362386,
+              "observed_failure_rate": 0.36
+            },
+            {
+              "bin": 3,
+              "count": 24,
+              "mean_predicted_probability": 0.3468493214518545,
+              "observed_failure_rate": 0.3333333333333333
+            },
+            {
+              "bin": 4,
+              "count": 19,
+              "mean_predicted_probability": 0.4573362960426882,
+              "observed_failure_rate": 0.5789473684210527
+            },
+            {
+              "bin": 5,
+              "count": 26,
+              "mean_predicted_probability": 0.5657562549697129,
+              "observed_failure_rate": 0.6538461538461539
+            },
+            {
+              "bin": 6,
+              "count": 2,
+              "mean_predicted_probability": 0.606658026100203,
+              "observed_failure_rate": 0.0
+            }
+          ],
+          "metrics": {
+            "auprc": 0.5116936430812925,
+            "auroc": 0.8458607292289301,
+            "brier": 0.11341488706403788,
+            "ece": 0.044924574465950315
+          }
+        }
+      },
+      "best_layer": {
+        "bootstrap_intervals": {
+          "auprc": [
+            0.2646374243436372,
+            0.4746244229639725
+          ],
+          "auroc": [
+            0.651235745622339,
+            0.7859205661371356
+          ],
+          "brier": [
+            0.13829492437342383,
+            0.21589088068799536
+          ],
+          "ece": [
+            0.13264320647528077,
+            0.21421245528089572
+          ]
+        },
+        "calibration_bins": [
+          {
+            "bin": 0,
+            "count": 208,
+            "mean_predicted_probability": 0.0112725790816411,
+            "observed_failure_rate": 0.1346153846153846
+          },
+          {
+            "bin": 1,
+            "count": 16,
+            "mean_predicted_probability": 0.1414967968339522,
+            "observed_failure_rate": 0.25
+          },
+          {
+            "bin": 2,
+            "count": 9,
+            "mean_predicted_probability": 0.23602823031811418,
+            "observed_failure_rate": 0.2222222222222222
+          },
+          {
+            "bin": 3,
+            "count": 11,
+            "mean_predicted_probability": 0.3678289589309401,
+            "observed_failure_rate": 0.2727272727272727
+          },
+          {
+            "bin": 4,
+            "count": 10,
+            "mean_predicted_probability": 0.45126924174075933,
+            "observed_failure_rate": 0.1
+          },
+          {
+            "bin": 5,
+            "count": 6,
+            "mean_predicted_probability": 0.5460285857813142,
+            "observed_failure_rate": 0.0
+          },
+          {
+            "bin": 6,
+            "count": 8,
+            "mean_predicted_probability": 0.6458438915148491,
+            "observed_failure_rate": 0.375
+          },
+          {
+            "bin": 7,
+            "count": 3,
+            "mean_predicted_probability": 0.7179353940683466,
+            "observed_failure_rate": 0.6666666666666666
+          },
+          {
+            "bin": 8,
+            "count": 8,
+            "mean_predicted_probability": 0.8525974532284195,
+            "observed_failure_rate": 0.875
+          },
+          {
+            "bin": 9,
+            "count": 16,
+            "mean_predicted_probability": 0.9796606248652453,
+            "observed_failure_rate": 0.375
+          }
+        ],
+        "layer_index": 26,
+        "metrics": {
+          "auprc": 0.3528709600488054,
+          "auroc": 0.7222056186491332,
+          "brier": 0.17394798929969474,
+          "ece": 0.16110148827530393
+        }
+      },
+      "evaluation_positive_count": 56,
+      "evaluation_prevalence": 0.18983050847457628,
+      "layer_probes": [
+        {
+          "layer_index": 0,
+          "metrics": {
+            "auprc": 0.21247277810083864,
+            "auroc": 0.5620143454871488,
+            "brier": 0.2372930666297237,
+            "ece": 0.2099515065336506
+          }
+        },
+        {
+          "layer_index": 1,
+          "metrics": {
+            "auprc": 0.2068060392207263,
+            "auroc": 0.5159892408846384,
+            "brier": 0.22589116919454202,
+            "ece": 0.20876982646162917
+          }
+        },
+        {
+          "layer_index": 2,
+          "metrics": {
+            "auprc": 0.20710825838326155,
+            "auroc": 0.5111326957561267,
+            "brier": 0.2501102933074739,
+            "ece": 0.26155662597085794
+          }
+        },
+        {
+          "layer_index": 3,
+          "metrics": {
+            "auprc": 0.24278151303794962,
+            "auroc": 0.5532725642558279,
+            "brier": 0.22729552615064344,
+            "ece": 0.21539624507943328
+          }
+        },
+        {
+          "layer_index": 4,
+          "metrics": {
+            "auprc": 0.22439437928354905,
+            "auroc": 0.5384787806335923,
+            "brier": 0.25319882881784156,
+            "ece": 0.25350270570334804
+          }
+        },
+        {
+          "layer_index": 5,
+          "metrics": {
+            "auprc": 0.2173309990804863,
+            "auroc": 0.530409444112373,
+            "brier": 0.2577468287681709,
+            "ece": 0.2634542671660881
+          }
+        },
+        {
+          "layer_index": 6,
+          "metrics": {
+            "auprc": 0.20184568803091604,
+            "auroc": 0.5310818888224745,
+            "brier": 0.2639792631619277,
+            "ece": 0.2545488252559351
+          }
+        },
+        {
+          "layer_index": 7,
+          "metrics": {
+            "auprc": 0.19629041437199873,
+            "auroc": 0.49910340705319783,
+            "brier": 0.25421415340359266,
+            "ece": 0.2364803449423886
+          }
+        },
+        {
+          "layer_index": 8,
+          "metrics": {
+            "auprc": 0.19582117951839145,
+            "auroc": 0.5023909145248058,
+            "brier": 0.23522284523693643,
+            "ece": 0.23194392936051808
+          }
+        },
+        {
+          "layer_index": 9,
+          "metrics": {
+            "auprc": 0.1899009014368715,
+            "auroc": 0.48879258816497306,
+            "brier": 0.2500278441442287,
+            "ece": 0.23852465592990782
+          }
+        },
+        {
+          "layer_index": 10,
+          "metrics": {
+            "auprc": 0.207780283448761,
+            "auroc": 0.4938732815301853,
+            "brier": 0.23681779213992427,
+            "ece": 0.23697782319255364
+          }
+        },
+        {
+          "layer_index": 11,
+          "metrics": {
+            "auprc": 0.20509198060765257,
+            "auroc": 0.5194261805140467,
+            "brier": 0.2326903821826247,
+            "ece": 0.21346641791324034
+          }
+        },
+        {
+          "layer_index": 12,
+          "metrics": {
+            "auprc": 0.2113731819404275,
+            "auroc": 0.5559623430962343,
+            "brier": 0.24153972014681582,
+            "ece": 0.23956225870995781
+          }
+        },
+        {
+          "layer_index": 13,
+          "metrics": {
+            "auprc": 0.2097076151374385,
+            "auroc": 0.5508069336521219,
+            "brier": 0.23252906309444765,
+            "ece": 0.22431962056216426
+          }
+        },
+        {
+          "layer_index": 14,
+          "metrics": {
+            "auprc": 0.2187342704221929,
+            "auroc": 0.5698595337716676,
+            "brier": 0.2358346296833642,
+            "ece": 0.21465159118753274
+          }
+        },
+        {
+          "layer_index": 15,
+          "metrics": {
+            "auprc": 0.22278527956246494,
+            "auroc": 0.543783622235505,
+            "brier": 0.23820389962504443,
+            "ece": 0.2484144225981986
+          }
+        },
+        {
+          "layer_index": 16,
+          "metrics": {
+            "auprc": 0.2684555524249054,
+            "auroc": 0.6263448894202033,
+            "brier": 0.19983081296528982,
+            "ece": 0.18580557243710144
+          }
+        },
+        {
+          "layer_index": 17,
+          "metrics": {
+            "auprc": 0.2759319032315946,
+            "auroc": 0.614988045427376,
+            "brier": 0.2031002635574966,
+            "ece": 0.18596509981185172
+          }
+        },
+        {
+          "layer_index": 18,
+          "metrics": {
+            "auprc": 0.2896301966251129,
+            "auroc": 0.619994022713688,
+            "brier": 0.20884862832318735,
+            "ece": 0.20797500932033308
+          }
+        },
+        {
+          "layer_index": 19,
+          "metrics": {
+            "auprc": 0.2676804757216877,
+            "auroc": 0.5860729228930066,
+            "brier": 0.22658106432994582,
+            "ece": 0.22409627285507513
+          }
+        },
+        {
+          "layer_index": 20,
+          "metrics": {
+            "auprc": 0.2763001765664167,
+            "auroc": 0.5701583980872684,
+            "brier": 0.21951224337878256,
+            "ece": 0.21473307364438837
+          }
+        },
+        {
+          "layer_index": 21,
+          "metrics": {
+            "auprc": 0.31446948202086367,
+            "auroc": 0.6572773460848775,
+            "brier": 0.20188383514517047,
+            "ece": 0.1927507508605801
+          }
+        },
+        {
+          "layer_index": 22,
+          "metrics": {
+            "auprc": 0.34383801584939677,
+            "auroc": 0.6897788404064554,
+            "brier": 0.18712450770408462,
+            "ece": 0.17100104212307646
+          }
+        },
+        {
+          "layer_index": 23,
+          "metrics": {
+            "auprc": 0.36219496218422187,
+            "auroc": 0.699118350268978,
+            "brier": 0.18198971409511336,
+            "ece": 0.16281745789314778
+          }
+        },
+        {
+          "layer_index": 24,
+          "metrics": {
+            "auprc": 0.362714178222617,
+            "auroc": 0.6925433353257622,
+            "brier": 0.18310994265605093,
+            "ece": 0.16759982208897065
+          }
+        },
+        {
+          "layer_index": 25,
+          "metrics": {
+            "auprc": 0.33972613586912925,
+            "auroc": 0.7198894202032278,
+            "brier": 0.18050033711390534,
+            "ece": 0.1634031619824156
+          }
+        },
+        {
+          "layer_index": 26,
+          "metrics": {
+            "auprc": 0.3528709600488054,
+            "auroc": 0.7222056186491332,
+            "brier": 0.17394798929969474,
+            "ece": 0.16110148827530393
+          }
+        },
+        {
+          "layer_index": 27,
+          "metrics": {
+            "auprc": 0.3829742856200988,
+            "auroc": 0.7216078900179319,
+            "brier": 0.17325989234457284,
+            "ece": 0.1657888714213
+          }
+        }
+      ],
+      "margin_matched_subset": {
+        "activation_vs_logit_features": {
+          "auprc": -0.10595138800295045,
+          "auroc": -0.06536989795918369
+        },
+        "margin_standardized_mean_difference": -0.1248164027929306,
+        "method": "1:1 greedy nearest-neighbor matching without replacement on the clean top-two logit margin",
+        "models": {
+          "best_layer": {
+            "auprc": 0.5333318649506245,
+            "auroc": 0.5625
+          },
+          "entropy": {
+            "auprc": 0.5691842912263286,
+            "auroc": 0.5516581632653061
+          },
+          "logit_features": {
+            "auprc": 0.6392832529535749,
+            "auroc": 0.6278698979591837
+          },
+          "margin": {
+            "auprc": 0.544585034498472,
+            "auroc": 0.5489477040816327
+          }
+        },
+        "negative_mean_margin": 7.9910712242126465,
+        "pair_count": 56,
+        "positive_mean_margin": 7.229910850524902,
+        "question_count": 112
+      },
+      "originally_correct_subset": {
+        "baselines": {
+          "entropy": {
+            "metrics": {
+              "auprc": 0.4752576001131015,
+              "auroc": 0.8425666199158486,
+              "brier": 0.11636597788150635,
+              "ece": 0.03761476002419727
+            }
+          },
+          "logit_features": {
+            "metrics": {
+              "auprc": 0.5489514197668461,
+              "auroc": 0.8160939691444601,
+              "brier": 0.09231187253344866,
+              "ece": 0.0516429348903265
+            }
+          },
+          "majority": {
+            "metrics": {
+              "auprc": 0.14418604651162792,
+              "auroc": 0.5,
+              "brier": 0.12416388349012213,
+              "ece": 0.0277029418500552
+            }
+          },
+          "margin": {
+            "metrics": {
+              "auprc": 0.4551660548439111,
+              "auroc": 0.842741935483871,
+              "brier": 0.09519061391786882,
+              "ece": 0.04828953705568676
+            }
+          }
+        },
+        "best_layer": {
+          "layer_index": 26,
+          "metrics": {
+            "auprc": 0.3444250040231257,
+            "auroc": 0.7126577840112203,
+            "brier": 0.1420763317609049,
+            "ece": 0.13960646700904772
+          }
+        },
+        "positive_count": 31,
+        "question_count": 215
+      },
+      "train_positive_count": 192,
+      "train_prevalence": 0.1718889883616831
+    },
+    "irrelevant_sentence": {
+      "activation_vs_logit_features": {
+        "bootstrap_difference_intervals": {
+          "auprc": [
+            -0.18529545651307208,
+            0.04293618681345573
+          ],
+          "auroc": [
+            -0.14495776299546695,
+            -0.0023617040836505943
+          ],
+          "brier": [
+            0.017257501615495288,
+            0.09789263693736555
+          ],
+          "ece": [
+            0.05094902524160457,
+            0.17227822569075893
+          ]
+        },
+        "difference_definition": "activation metric minus logit-feature metric; positive favors activations for AUROC/AUPRC, negative favors activations for Brier/ECE",
+        "point_differences": {
+          "auprc": -0.07153963008795672,
+          "auroc": -0.07154779125403354,
+          "brier": 0.05511035957297611,
+          "ece": 0.12178371361697347
+        }
+      },
+      "baselines": {
+        "entropy": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.41263651725471523,
+              0.6182260284432964
+            ],
+            "auroc": [
+              0.6934815430214955,
+              0.8124833984378239
+            ],
+            "brier": [
+              0.1771334014014429,
+              0.23412858132283024
+            ],
+            "ece": [
+              0.026701094793427155,
+              0.12428828505693376
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 2,
+              "count": 264,
+              "mean_predicted_probability": 0.21229036063009737,
+              "observed_failure_rate": 0.26515151515151514
+            },
+            {
+              "bin": 3,
+              "count": 7,
+              "mean_predicted_probability": 0.34097285477354433,
+              "observed_failure_rate": 0.7142857142857143
+            },
+            {
+              "bin": 4,
+              "count": 2,
+              "mean_predicted_probability": 0.44451520684995555,
+              "observed_failure_rate": 0.0
+            },
+            {
+              "bin": 5,
+              "count": 12,
+              "mean_predicted_probability": 0.5418305960889552,
+              "observed_failure_rate": 0.5
+            },
+            {
+              "bin": 6,
+              "count": 4,
+              "mean_predicted_probability": 0.6350847038759067,
+              "observed_failure_rate": 0.5
+            },
+            {
+              "bin": 7,
+              "count": 6,
+              "mean_predicted_probability": 0.7521777267195753,
+              "observed_failure_rate": 0.5
+            }
+          ],
+          "metrics": {
+            "auprc": 0.5038370736587119,
+            "auroc": 0.7547846889952152,
+            "brier": 0.20512515178642815,
+            "ece": 0.06784046628077264
+          }
+        },
+        "logit_features": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.46860010174686395,
+              0.6779451115073677
+            ],
+            "auroc": [
+              0.7403344437580704,
+              0.8458202747447887
+            ],
+            "brier": [
+              0.14377635641799885,
+              0.1895964647331493
+            ],
+            "ece": [
+              0.04910362815767628,
+              0.12396936344562724
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 0,
+              "count": 62,
+              "mean_predicted_probability": 0.07210414991963131,
+              "observed_failure_rate": 0.03225806451612903
+            },
+            {
+              "bin": 1,
+              "count": 85,
+              "mean_predicted_probability": 0.13981691289257805,
+              "observed_failure_rate": 0.11764705882352941
+            },
+            {
+              "bin": 2,
+              "count": 45,
+              "mean_predicted_probability": 0.24527239923557506,
+              "observed_failure_rate": 0.4222222222222222
+            },
+            {
+              "bin": 3,
+              "count": 26,
+              "mean_predicted_probability": 0.34433216795832217,
+              "observed_failure_rate": 0.5384615384615384
+            },
+            {
+              "bin": 4,
+              "count": 33,
+              "mean_predicted_probability": 0.43915608184167243,
+              "observed_failure_rate": 0.42424242424242425
+            },
+            {
+              "bin": 5,
+              "count": 26,
+              "mean_predicted_probability": 0.554327895951543,
+              "observed_failure_rate": 0.5769230769230769
+            },
+            {
+              "bin": 6,
+              "count": 16,
+              "mean_predicted_probability": 0.6185906942805091,
+              "observed_failure_rate": 0.625
+            },
+            {
+              "bin": 7,
+              "count": 2,
+              "mean_predicted_probability": 0.7442322008412506,
+              "observed_failure_rate": 1.0
+            }
+          ],
+          "metrics": {
+            "auprc": 0.5728340934092736,
+            "auroc": 0.795593635250918,
+            "brier": 0.16622968432680907,
+            "ece": 0.0646057981499439
+          }
+        },
+        "majority": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.24067796610169492,
+              0.3423728813559322
+            ],
+            "auroc": [
+              0.5,
+              0.5
+            ],
+            "brier": [
+              0.18276597094742658,
+              0.23475146477927036
+            ],
+            "ece": [
+              0.0037266892250732986,
+              0.09796822602916397
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 2,
+              "count": 295,
+              "mean_predicted_probability": 0.24440465532676822,
+              "observed_failure_rate": 0.29152542372881357
+            }
+          ],
+          "metrics": {
+            "auprc": 0.29152542372881357,
+            "auroc": 0.5,
+            "brier": 0.2087587178633485,
+            "ece": 0.04712076840204535
+          }
+        },
+        "margin": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.40623375452338367,
+              0.6197104689061506
+            ],
+            "auroc": [
+              0.6934617595009859,
+              0.8148615314814999
+            ],
+            "brier": [
+              0.15095407305624872,
+              0.2019874820701763
+            ],
+            "ece": [
+              0.04018339015754524,
+              0.11888467575076694
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 0,
+              "count": 26,
+              "mean_predicted_probability": 0.08535325198454954,
+              "observed_failure_rate": 0.15384615384615385
+            },
+            {
+              "bin": 1,
+              "count": 126,
+              "mean_predicted_probability": 0.1433583915828627,
+              "observed_failure_rate": 0.12698412698412698
+            },
+            {
+              "bin": 2,
+              "count": 47,
+              "mean_predicted_probability": 0.24635240924872964,
+              "observed_failure_rate": 0.2765957446808511
+            },
+            {
+              "bin": 3,
+              "count": 29,
+              "mean_predicted_probability": 0.34978304162132046,
+              "observed_failure_rate": 0.5172413793103449
+            },
+            {
+              "bin": 4,
+              "count": 29,
+              "mean_predicted_probability": 0.44067615088013146,
+              "observed_failure_rate": 0.6551724137931034
+            },
+            {
+              "bin": 5,
+              "count": 37,
+              "mean_predicted_probability": 0.5584031112046793,
+              "observed_failure_rate": 0.4864864864864865
+            },
+            {
+              "bin": 6,
+              "count": 1,
+              "mean_predicted_probability": 0.6028524810002075,
+              "observed_failure_rate": 1.0
+            }
+          ],
+          "metrics": {
+            "auprc": 0.507925331732398,
+            "auroc": 0.7536997885835095,
+            "brier": 0.17653653794682772,
+            "ece": 0.06576323933621336
+          }
+        }
+      },
+      "best_layer": {
+        "bootstrap_intervals": {
+          "auprc": [
+            0.40451940572809153,
+            0.6147020590801273
+          ],
+          "auroc": [
+            0.65457119919507,
+            0.7921990037021567
+          ],
+          "brier": [
+            0.17930332655820236,
+            0.264517119667418
+          ],
+          "ece": [
+            0.14966691870505272,
+            0.243986010286518
+          ]
+        },
+        "calibration_bins": [
+          {
+            "bin": 0,
+            "count": 160,
+            "mean_predicted_probability": 0.014133685566130563,
+            "observed_failure_rate": 0.15
+          },
+          {
+            "bin": 1,
+            "count": 22,
+            "mean_predicted_probability": 0.1549323489559169,
+            "observed_failure_rate": 0.22727272727272727
+          },
+          {
+            "bin": 2,
+            "count": 9,
+            "mean_predicted_probability": 0.23961833039878322,
+            "observed_failure_rate": 0.4444444444444444
+          },
+          {
+            "bin": 3,
+            "count": 11,
+            "mean_predicted_probability": 0.35121925911967006,
+            "observed_failure_rate": 0.45454545454545453
+          },
+          {
+            "bin": 4,
+            "count": 9,
+            "mean_predicted_probability": 0.4490107976784825,
+            "observed_failure_rate": 0.3333333333333333
+          },
+          {
+            "bin": 5,
+            "count": 11,
+            "mean_predicted_probability": 0.5463375545277468,
+            "observed_failure_rate": 0.6363636363636364
+          },
+          {
+            "bin": 6,
+            "count": 7,
+            "mean_predicted_probability": 0.6420104196317825,
+            "observed_failure_rate": 0.5714285714285714
+          },
+          {
+            "bin": 7,
+            "count": 13,
+            "mean_predicted_probability": 0.7579028057795782,
+            "observed_failure_rate": 0.3076923076923077
+          },
+          {
+            "bin": 8,
+            "count": 10,
+            "mean_predicted_probability": 0.8610644104987243,
+            "observed_failure_rate": 0.4
+          },
+          {
+            "bin": 9,
+            "count": 43,
+            "mean_predicted_probability": 0.9694406178119009,
+            "observed_failure_rate": 0.6046511627906976
+          }
+        ],
+        "layer_index": 22,
+        "metrics": {
+          "auprc": 0.5012944633213169,
+          "auroc": 0.7240458439968844,
+          "brier": 0.22134004389978518,
+          "ece": 0.18638951176691737
+        }
+      },
+      "evaluation_positive_count": 86,
+      "evaluation_prevalence": 0.29152542372881357,
+      "layer_probes": [
+        {
+          "layer_index": 0,
+          "metrics": {
+            "auprc": 0.29338812260513336,
+            "auroc": 0.5179704016913319,
+            "brier": 0.32926374035297595,
+            "ece": 0.293566919991862
+          }
+        },
+        {
+          "layer_index": 1,
+          "metrics": {
+            "auprc": 0.32509908933651144,
+            "auroc": 0.5531879381328586,
+            "brier": 0.3060320580001122,
+            "ece": 0.30181070528097675
+          }
+        },
+        {
+          "layer_index": 2,
+          "metrics": {
+            "auprc": 0.3736050242467316,
+            "auroc": 0.5790030043396016,
+            "brier": 0.2906281168532943,
+            "ece": 0.2811343536961616
+          }
+        },
+        {
+          "layer_index": 3,
+          "metrics": {
+            "auprc": 0.3317091027644937,
+            "auroc": 0.554968287526427,
+            "brier": 0.3075107557475512,
+            "ece": 0.29487135956654376
+          }
+        },
+        {
+          "layer_index": 4,
+          "metrics": {
+            "auprc": 0.3574530440186511,
+            "auroc": 0.562089685100701,
+            "brier": 0.2964207172475032,
+            "ece": 0.2810800492314483
+          }
+        },
+        {
+          "layer_index": 5,
+          "metrics": {
+            "auprc": 0.3437623926510808,
+            "auroc": 0.54745743852231,
+            "brier": 0.31005862235335346,
+            "ece": 0.29900248617752967
+          }
+        },
+        {
+          "layer_index": 6,
+          "metrics": {
+            "auprc": 0.37331913184591814,
+            "auroc": 0.5717146990096806,
+            "brier": 0.298014819464297,
+            "ece": 0.2904672332570925
+          }
+        },
+        {
+          "layer_index": 7,
+          "metrics": {
+            "auprc": 0.38982760748174805,
+            "auroc": 0.6045398909535996,
+            "brier": 0.28210904053193386,
+            "ece": 0.26664228633145315
+          }
+        },
+        {
+          "layer_index": 8,
+          "metrics": {
+            "auprc": 0.3970286474323419,
+            "auroc": 0.5925781684655614,
+            "brier": 0.2822047793899393,
+            "ece": 0.2596379269084565
+          }
+        },
+        {
+          "layer_index": 9,
+          "metrics": {
+            "auprc": 0.34718096885677896,
+            "auroc": 0.5902970958050517,
+            "brier": 0.3012178274167678,
+            "ece": 0.2986386165914099
+          }
+        },
+        {
+          "layer_index": 10,
+          "metrics": {
+            "auprc": 0.33039549459738426,
+            "auroc": 0.565984199399132,
+            "brier": 0.31109152130133655,
+            "ece": 0.29530536522372897
+          }
+        },
+        {
+          "layer_index": 11,
+          "metrics": {
+            "auprc": 0.3095032424594682,
+            "auroc": 0.5425614776899967,
+            "brier": 0.317215488088009,
+            "ece": 0.2940797571396064
+          }
+        },
+        {
+          "layer_index": 12,
+          "metrics": {
+            "auprc": 0.35086985194235476,
+            "auroc": 0.5976966729720707,
+            "brier": 0.29739704861262456,
+            "ece": 0.28131231514305466
+          }
+        },
+        {
+          "layer_index": 13,
+          "metrics": {
+            "auprc": 0.38232832643247483,
+            "auroc": 0.627294981640147,
+            "brier": 0.27003873100221276,
+            "ece": 0.23612381121289475
+          }
+        },
+        {
+          "layer_index": 14,
+          "metrics": {
+            "auprc": 0.38784939457554335,
+            "auroc": 0.5910759986647379,
+            "brier": 0.2948070875061154,
+            "ece": 0.2822704719687895
+          }
+        },
+        {
+          "layer_index": 15,
+          "metrics": {
+            "auprc": 0.34068217425578173,
+            "auroc": 0.5821186157783466,
+            "brier": 0.30456424804505006,
+            "ece": 0.28670717467229784
+          }
+        },
+        {
+          "layer_index": 16,
+          "metrics": {
+            "auprc": 0.38838489726843595,
+            "auroc": 0.6353621898297541,
+            "brier": 0.27136408382973215,
+            "ece": 0.23828474618746792
+          }
+        },
+        {
+          "layer_index": 17,
+          "metrics": {
+            "auprc": 0.4641255721813501,
+            "auroc": 0.6851007010125738,
+            "brier": 0.26225685116049896,
+            "ece": 0.240457157916041
+          }
+        },
+        {
+          "layer_index": 18,
+          "metrics": {
+            "auprc": 0.42201971496396196,
+            "auroc": 0.679036385890731,
+            "brier": 0.26010463074197293,
+            "ece": 0.23320913999698295
+          }
+        },
+        {
+          "layer_index": 19,
+          "metrics": {
+            "auprc": 0.46642863356679,
+            "auroc": 0.6720262601535553,
+            "brier": 0.24789900861858855,
+            "ece": 0.2269297532820223
+          }
+        },
+        {
+          "layer_index": 20,
+          "metrics": {
+            "auprc": 0.47793012278230795,
+            "auroc": 0.6802603760988093,
+            "brier": 0.2414653355476762,
+            "ece": 0.20825711256745344
+          }
+        },
+        {
+          "layer_index": 21,
+          "metrics": {
+            "auprc": 0.49238567150039914,
+            "auroc": 0.7205964170468454,
+            "brier": 0.23057919532224472,
+            "ece": 0.2078019480464156
+          }
+        },
+        {
+          "layer_index": 22,
+          "metrics": {
+            "auprc": 0.5012944633213169,
+            "auroc": 0.7240458439968844,
+            "brier": 0.22134004389978518,
+            "ece": 0.18638951176691737
+          }
+        },
+        {
+          "layer_index": 23,
+          "metrics": {
+            "auprc": 0.48129571821003886,
+            "auroc": 0.7221542227662179,
+            "brier": 0.21783350877759858,
+            "ece": 0.1821053336853911
+          }
+        },
+        {
+          "layer_index": 24,
+          "metrics": {
+            "auprc": 0.4755258184536899,
+            "auroc": 0.7131412039612773,
+            "brier": 0.23085311627952979,
+            "ece": 0.19654647907807576
+          }
+        },
+        {
+          "layer_index": 25,
+          "metrics": {
+            "auprc": 0.46583211510351097,
+            "auroc": 0.6951151663513965,
+            "brier": 0.2531460155513346,
+            "ece": 0.23552999612396597
+          }
+        },
+        {
+          "layer_index": 26,
+          "metrics": {
+            "auprc": 0.44508397612062045,
+            "auroc": 0.685935239790809,
+            "brier": 0.2493474068940962,
+            "ece": 0.22134608181208906
+          }
+        },
+        {
+          "layer_index": 27,
+          "metrics": {
+            "auprc": 0.4514686370655851,
+            "auroc": 0.6904973851118282,
+            "brier": 0.23802283719836884,
+            "ece": 0.20231046086864635
+          }
+        }
+      ],
+      "margin_matched_subset": {
+        "activation_vs_logit_features": {
+          "auprc": 0.05285306122207223,
+          "auroc": 0.0740941049215793
+        },
+        "margin_standardized_mean_difference": -0.12514899671077728,
+        "method": "1:1 greedy nearest-neighbor matching without replacement on the clean top-two logit margin",
+        "models": {
+          "best_layer": {
+            "auprc": 0.6535654340822826,
+            "auroc": 0.6692806922660898
+          },
+          "entropy": {
+            "auprc": 0.5432264084221876,
+            "auroc": 0.5425905895078421
+          },
+          "logit_features": {
+            "auprc": 0.6007123728602104,
+            "auroc": 0.5951865873445105
+          },
+          "margin": {
+            "auprc": 0.5396472736301574,
+            "auroc": 0.5402920497566251
+          }
+        },
+        "negative_mean_margin": 11.373546600341797,
+        "pair_count": 86,
+        "positive_mean_margin": 10.481104850769043,
+        "question_count": 172
+      },
+      "originally_correct_subset": {
+        "baselines": {
+          "entropy": {
+            "metrics": {
+              "auprc": 0.4795188352749963,
+              "auroc": 0.7717673430863615,
+              "brier": 0.18192474365374348,
+              "ece": 0.03218694544143496
+            }
+          },
+          "logit_features": {
+            "metrics": {
+              "auprc": 0.5539491199312861,
+              "auroc": 0.8290467201510145,
+              "brier": 0.14432786338489217,
+              "ece": 0.0986615222244209
+            }
+          },
+          "majority": {
+            "metrics": {
+              "auprc": 0.24186046511627907,
+              "auroc": 0.5,
+              "brier": 0.18337045343384337,
+              "ece": 0.0025441902104891556
+            }
+          },
+          "margin": {
+            "metrics": {
+              "auprc": 0.4948430243378218,
+              "auroc": 0.7697026899480888,
+              "brier": 0.1555750635130573,
+              "ece": 0.0775379027948992
+            }
+          }
+        },
+        "best_layer": {
+          "layer_index": 22,
+          "metrics": {
+            "auprc": 0.46446955630134673,
+            "auroc": 0.7323029731005193,
+            "brier": 0.19756925711116366,
+            "ece": 0.16120877801547046
+          }
+        },
+        "positive_count": 52,
+        "question_count": 215
+      },
+      "train_positive_count": 273,
+      "train_prevalence": 0.24440465532676814
+    },
+    "reorder_choices": {
+      "activation_vs_logit_features": {
+        "bootstrap_difference_intervals": {
+          "auprc": [
+            -0.2959712364737675,
+            -0.06882294961275784
+          ],
+          "auroc": [
+            -0.20462851026994466,
+            -0.05747638912720202
+          ],
+          "brier": [
+            0.053030207852764834,
+            0.11569366678673079
+          ],
+          "ece": [
+            0.07561155147161364,
+            0.178851689642366
+          ]
+        },
+        "difference_definition": "activation metric minus logit-feature metric; positive favors activations for AUROC/AUPRC, negative favors activations for Brier/ECE",
+        "point_differences": {
+          "auprc": -0.17534221922859594,
+          "auroc": -0.13016751191025056,
+          "brier": 0.08293528932449516,
+          "ece": 0.13410255596572168
+        }
+      },
+      "baselines": {
+        "entropy": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.393549740397049,
+              0.6764254034789166
+            ],
+            "auroc": [
+              0.7863157947619814,
+              0.8961445232270531
+            ],
+            "brier": [
+              0.10291789030054582,
+              0.15888054177759317
+            ],
+            "ece": [
+              0.01415790359973042,
+              0.06664859634403547
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 1,
+              "count": 262,
+              "mean_predicted_probability": 0.13874773143514058,
+              "observed_failure_rate": 0.13740458015267176
+            },
+            {
+              "bin": 2,
+              "count": 9,
+              "mean_predicted_probability": 0.23995765117453466,
+              "observed_failure_rate": 0.3333333333333333
+            },
+            {
+              "bin": 3,
+              "count": 2,
+              "mean_predicted_probability": 0.35109680661447706,
+              "observed_failure_rate": 0.5
+            },
+            {
+              "bin": 4,
+              "count": 12,
+              "mean_predicted_probability": 0.45480374909539917,
+              "observed_failure_rate": 0.5833333333333334
+            },
+            {
+              "bin": 5,
+              "count": 4,
+              "mean_predicted_probability": 0.5613576008072666,
+              "observed_failure_rate": 0.75
+            },
+            {
+              "bin": 6,
+              "count": 3,
+              "mean_predicted_probability": 0.6774083306675481,
+              "observed_failure_rate": 0.6666666666666666
+            },
+            {
+              "bin": 7,
+              "count": 3,
+              "mean_predicted_probability": 0.7296282526540584,
+              "observed_failure_rate": 0.6666666666666666
+            }
+          ],
+          "metrics": {
+            "auprc": 0.5302019685857807,
+            "auroc": 0.8419778699861687,
+            "brier": 0.13144610667558734,
+            "ece": 0.013586872948467887
+          }
+        },
+        "logit_features": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.36631599634604584,
+              0.625252009098109
+            ],
+            "auroc": [
+              0.7670340909090908,
+              0.8848623447403269
+            ],
+            "brier": [
+              0.09556936149486803,
+              0.13640737651694804
+            ],
+            "ece": [
+              0.02403162241446564,
+              0.08214159555699889
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 0,
+              "count": 141,
+              "mean_predicted_probability": 0.055770558989110444,
+              "observed_failure_rate": 0.028368794326241134
+            },
+            {
+              "bin": 1,
+              "count": 52,
+              "mean_predicted_probability": 0.141041541531986,
+              "observed_failure_rate": 0.15384615384615385
+            },
+            {
+              "bin": 2,
+              "count": 26,
+              "mean_predicted_probability": 0.2413829129005461,
+              "observed_failure_rate": 0.23076923076923078
+            },
+            {
+              "bin": 3,
+              "count": 29,
+              "mean_predicted_probability": 0.34129424480016624,
+              "observed_failure_rate": 0.3448275862068966
+            },
+            {
+              "bin": 4,
+              "count": 35,
+              "mean_predicted_probability": 0.4657860974003228,
+              "observed_failure_rate": 0.5714285714285714
+            },
+            {
+              "bin": 5,
+              "count": 12,
+              "mean_predicted_probability": 0.5210219322225987,
+              "observed_failure_rate": 0.5
+            }
+          ],
+          "metrics": {
+            "auprc": 0.4701559310053688,
+            "auroc": 0.8278008298755187,
+            "brier": 0.11543054358653183,
+            "ece": 0.030025969734476493
+          }
+        },
+        "majority": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.1423728813559322,
+              0.2305084745762712
+            ],
+            "auroc": [
+              0.5,
+              0.5
+            ],
+            "brier": [
+              0.12287155272328498,
+              0.18102368540313263
+            ],
+            "ece": [
+              0.0006069526425201144,
+              0.06040999651002227
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 1,
+              "count": 295,
+              "mean_predicted_probability": 0.17009847806624892,
+              "observed_failure_rate": 0.18305084745762712
+            }
+          ],
+          "metrics": {
+            "auprc": 0.18305084745762712,
+            "auroc": 0.5,
+            "brier": 0.14971099857552236,
+            "ece": 0.012952369391378199
+          }
+        },
+        "margin": {
+          "bootstrap_intervals": {
+            "auprc": [
+              0.374075578618899,
+              0.6487531236781738
+            ],
+            "auroc": [
+              0.7856222365308165,
+              0.8922465765062831
+            ],
+            "brier": [
+              0.09296793541661037,
+              0.13705830277310696
+            ],
+            "ece": [
+              0.025467061946501446,
+              0.07983501830019796
+            ]
+          },
+          "calibration_bins": [
+            {
+              "bin": 0,
+              "count": 136,
+              "mean_predicted_probability": 0.05742757563431554,
+              "observed_failure_rate": 0.029411764705882353
+            },
+            {
+              "bin": 1,
+              "count": 63,
+              "mean_predicted_probability": 0.13861221776193403,
+              "observed_failure_rate": 0.1111111111111111
+            },
+            {
+              "bin": 2,
+              "count": 27,
+              "mean_predicted_probability": 0.25013937140919884,
+              "observed_failure_rate": 0.3333333333333333
+            },
+            {
+              "bin": 3,
+              "count": 27,
+              "mean_predicted_probability": 0.3470614637553453,
+              "observed_failure_rate": 0.4074074074074074
+            },
+            {
+              "bin": 4,
+              "count": 17,
+              "mean_predicted_probability": 0.45405932206307514,
+              "observed_failure_rate": 0.47058823529411764
+            },
+            {
+              "bin": 5,
+              "count": 25,
+              "mean_predicted_probability": 0.5397424749129186,
+              "observed_failure_rate": 0.6
+            }
+          ],
+          "metrics": {
+            "auprc": 0.4980284483098059,
+            "auroc": 0.8409789457507301,
+            "brier": 0.11422633747711894,
+            "ece": 0.03798551562010448
+          }
+        }
+      },
+      "best_layer": {
+        "bootstrap_intervals": {
+          "auprc": [
+            0.21699553958629877,
+            0.4010690802668598
+          ],
+          "auroc": [
+            0.6218364432887494,
+            0.7733559851720118
+          ],
+          "brier": [
+            0.16085898390890127,
+            0.24033512329278256
+          ],
+          "ece": [
+            0.13226848707403033,
+            0.22059706633234374
+          ]
+        },
+        "calibration_bins": [
+          {
+            "bin": 0,
+            "count": 194,
+            "mean_predicted_probability": 0.013622218605054111,
+            "observed_failure_rate": 0.11855670103092783
+          },
+          {
+            "bin": 1,
+            "count": 12,
+            "mean_predicted_probability": 0.15100072333288578,
+            "observed_failure_rate": 0.25
+          },
+          {
+            "bin": 2,
+            "count": 20,
+            "mean_predicted_probability": 0.2509010518110272,
+            "observed_failure_rate": 0.25
+          },
+          {
+            "bin": 3,
+            "count": 9,
+            "mean_predicted_probability": 0.341684074647751,
+            "observed_failure_rate": 0.2222222222222222
+          },
+          {
+            "bin": 4,
+            "count": 8,
+            "mean_predicted_probability": 0.46296218607716944,
+            "observed_failure_rate": 0.375
+          },
+          {
+            "bin": 5,
+            "count": 8,
+            "mean_predicted_probability": 0.5355514667429686,
+            "observed_failure_rate": 0.375
+          },
+          {
+            "bin": 6,
+            "count": 7,
+            "mean_predicted_probability": 0.6537442903887841,
+            "observed_failure_rate": 0.42857142857142855
+          },
+          {
+            "bin": 7,
+            "count": 5,
+            "mean_predicted_probability": 0.7522945550986454,
+            "observed_failure_rate": 0.6
+          },
+          {
+            "bin": 8,
+            "count": 7,
+            "mean_predicted_probability": 0.8684305940976861,
+            "observed_failure_rate": 0.2857142857142857
+          },
+          {
+            "bin": 9,
+            "count": 25,
+            "mean_predicted_probability": 0.9749860109369465,
+            "observed_failure_rate": 0.28
+          }
+        ],
+        "layer_index": 27,
+        "metrics": {
+          "auprc": 0.29481371177677285,
+          "auroc": 0.6976333179652682,
+          "brier": 0.198365832911027,
+          "ece": 0.16412852570019817
+        }
+      },
+      "evaluation_positive_count": 54,
+      "evaluation_prevalence": 0.18305084745762712,
+      "layer_probes": [
+        {
+          "layer_index": 0,
+          "metrics": {
+            "auprc": 0.17841291533699905,
+            "auroc": 0.48601506070385736,
+            "brier": 0.24003936149329536,
+            "ece": 0.2320960596730565
+          }
+        },
+        {
+          "layer_index": 1,
+          "metrics": {
+            "auprc": 0.1938006675178714,
+            "auroc": 0.5260488704472106,
+            "brier": 0.2353123223607078,
+            "ece": 0.23701238573129943
+          }
+        },
+        {
+          "layer_index": 2,
+          "metrics": {
+            "auprc": 0.19493308396070294,
+            "auroc": 0.512217611802674,
+            "brier": 0.2306269428350111,
+            "ece": 0.21195558465526512
+          }
+        },
+        {
+          "layer_index": 3,
+          "metrics": {
+            "auprc": 0.19363502808853628,
+            "auroc": 0.4730290456431535,
+            "brier": 0.22907712085984414,
+            "ece": 0.22925019759659632
+          }
+        },
+        {
+          "layer_index": 4,
+          "metrics": {
+            "auprc": 0.19405661362969334,
+            "auroc": 0.5177501152604888,
+            "brier": 0.23200939995125672,
+            "ece": 0.234748282167924
+          }
+        },
+        {
+          "layer_index": 5,
+          "metrics": {
+            "auprc": 0.18349558068528574,
+            "auroc": 0.4884739511295528,
+            "brier": 0.24214215133659933,
+            "ece": 0.2431782912249846
+          }
+        },
+        {
+          "layer_index": 6,
+          "metrics": {
+            "auprc": 0.18780284552775692,
+            "auroc": 0.4738742892269864,
+            "brier": 0.2575269787342024,
+            "ece": 0.2615534364799267
+          }
+        },
+        {
+          "layer_index": 7,
+          "metrics": {
+            "auprc": 0.18660097049411387,
+            "auroc": 0.4641924081758107,
+            "brier": 0.25227570669710403,
+            "ece": 0.25272733198585323
+          }
+        },
+        {
+          "layer_index": 8,
+          "metrics": {
+            "auprc": 0.17852326584346512,
+            "auroc": 0.48632242200706927,
+            "brier": 0.23641479520995357,
+            "ece": 0.2357770250390415
+          }
+        },
+        {
+          "layer_index": 9,
+          "metrics": {
+            "auprc": 0.17092621821056048,
+            "auroc": 0.4744121715076072,
+            "brier": 0.2668615773577614,
+            "ece": 0.25181677942005165
+          }
+        },
+        {
+          "layer_index": 10,
+          "metrics": {
+            "auprc": 0.1921882677326897,
+            "auroc": 0.5275856769632703,
+            "brier": 0.24830081585642413,
+            "ece": 0.2430014474349299
+          }
+        },
+        {
+          "layer_index": 11,
+          "metrics": {
+            "auprc": 0.20012656445975485,
+            "auroc": 0.5280467189180882,
+            "brier": 0.23448034638652382,
+            "ece": 0.21586442459252284
+          }
+        },
+        {
+          "layer_index": 12,
+          "metrics": {
+            "auprc": 0.22097538335767686,
+            "auroc": 0.5591670508682957,
+            "brier": 0.2396581213114221,
+            "ece": 0.24655258575874647
+          }
+        },
+        {
+          "layer_index": 13,
+          "metrics": {
+            "auprc": 0.22112647003506267,
+            "auroc": 0.5669279237743968,
+            "brier": 0.2381533387418116,
+            "ece": 0.2254235531948114
+          }
+        },
+        {
+          "layer_index": 14,
+          "metrics": {
+            "auprc": 0.24463722679892658,
+            "auroc": 0.595051483018288,
+            "brier": 0.2303203871465254,
+            "ece": 0.22454620305172254
+          }
+        },
+        {
+          "layer_index": 15,
+          "metrics": {
+            "auprc": 0.2688529610718718,
+            "auroc": 0.5740740740740741,
+            "brier": 0.22735461646726327,
+            "ece": 0.20795164342934436
+          }
+        },
+        {
+          "layer_index": 16,
+          "metrics": {
+            "auprc": 0.27125018502883713,
+            "auroc": 0.5967419701859535,
+            "brier": 0.2204437386734176,
+            "ece": 0.21243382523628898
+          }
+        },
+        {
+          "layer_index": 17,
+          "metrics": {
+            "auprc": 0.2348668692719301,
+            "auroc": 0.5646995543261103,
+            "brier": 0.2259366932917865,
+            "ece": 0.22448078340228578
+          }
+        },
+        {
+          "layer_index": 18,
+          "metrics": {
+            "auprc": 0.25839478276064376,
+            "auroc": 0.5917473490087598,
+            "brier": 0.2268259114891676,
+            "ece": 0.21380247009441838
+          }
+        },
+        {
+          "layer_index": 19,
+          "metrics": {
+            "auprc": 0.2558350215497627,
+            "auroc": 0.5630859074842478,
+            "brier": 0.2348365979132561,
+            "ece": 0.23728191329445658
+          }
+        },
+        {
+          "layer_index": 20,
+          "metrics": {
+            "auprc": 0.2702878278962919,
+            "auroc": 0.6015829107115415,
+            "brier": 0.23106632597517146,
+            "ece": 0.22821976387174842
+          }
+        },
+        {
+          "layer_index": 21,
+          "metrics": {
+            "auprc": 0.31248671030121494,
+            "auroc": 0.6257107730136776,
+            "brier": 0.20941731240337788,
+            "ece": 0.1983533919728947
+          }
+        },
+        {
+          "layer_index": 22,
+          "metrics": {
+            "auprc": 0.32244450731535385,
+            "auroc": 0.6506838788996465,
+            "brier": 0.20072544456197267,
+            "ece": 0.1971653956561164
+          }
+        },
+        {
+          "layer_index": 23,
+          "metrics": {
+            "auprc": 0.2929224598634024,
+            "auroc": 0.627862302136161,
+            "brier": 0.20348619677201904,
+            "ece": 0.18864422084029517
+          }
+        },
+        {
+          "layer_index": 24,
+          "metrics": {
+            "auprc": 0.3035520910978573,
+            "auroc": 0.6440756108805902,
+            "brier": 0.20880190864845108,
+            "ece": 0.19811883012619683
+          }
+        },
+        {
+          "layer_index": 25,
+          "metrics": {
+            "auprc": 0.3204728700752759,
+            "auroc": 0.6876440756108806,
+            "brier": 0.20232702809601943,
+            "ece": 0.1967375085653256
+          }
+        },
+        {
+          "layer_index": 26,
+          "metrics": {
+            "auprc": 0.32470869548214315,
+            "auroc": 0.6937913016751189,
+            "brier": 0.20105858202769109,
+            "ece": 0.17978427872283048
+          }
+        },
+        {
+          "layer_index": 27,
+          "metrics": {
+            "auprc": 0.29481371177677285,
+            "auroc": 0.6976333179652682,
+            "brier": 0.198365832911027,
+            "ece": 0.16412852570019817
+          }
+        }
+      ],
+      "margin_matched_subset": {
+        "activation_vs_logit_features": {
+          "auprc": -0.0450109288438032,
+          "auroc": -0.042524005486968386
+        },
+        "margin_standardized_mean_difference": -0.06934387236833572,
+        "method": "1:1 greedy nearest-neighbor matching without replacement on the clean top-two logit margin",
+        "models": {
+          "best_layer": {
+            "auprc": 0.47009548516271304,
+            "auroc": 0.46947873799725653
+          },
+          "entropy": {
+            "auprc": 0.5734258177221265,
+            "auroc": 0.5396090534979424
+          },
+          "logit_features": {
+            "auprc": 0.5151064140065162,
+            "auroc": 0.5120027434842249
+          },
+          "margin": {
+            "auprc": 0.5407270881658008,
+            "auroc": 0.5291495198902606
+          }
+        },
+        "negative_mean_margin": 7.791666507720947,
+        "pair_count": 54,
+        "positive_mean_margin": 7.370370388031006,
+        "question_count": 108
+      },
+      "originally_correct_subset": {
+        "baselines": {
+          "entropy": {
+            "metrics": {
+              "auprc": 0.3033407207626899,
+              "auroc": 0.8419345741680766,
+              "brier": 0.07956321216519127,
+              "ece": 0.07074130838077922
+            }
+          },
+          "logit_features": {
+            "metrics": {
+              "auprc": 0.2811913161463587,
+              "auroc": 0.8338973491257754,
+              "brier": 0.07102070619919788,
+              "ece": 0.058599825640772145
+            }
+          },
+          "majority": {
+            "metrics": {
+              "auprc": 0.08372093023255814,
+              "auroc": 0.5,
+              "brier": 0.0841728168433148,
+              "ece": 0.0863775478336907
+            }
+          },
+          "margin": {
+            "metrics": {
+              "auprc": 0.28088772332927486,
+              "auroc": 0.8408065425831923,
+              "brier": 0.07082533902311439,
+              "ece": 0.0637660051814554
+            }
+          }
+        },
+        "best_layer": {
+          "layer_index": 27,
+          "metrics": {
+            "auprc": 0.1535835059921924,
+            "auroc": 0.6745628877608574,
+            "brier": 0.13936671340247625,
+            "ece": 0.13762231752515952
+          }
+        },
+        "positive_count": 18,
+        "question_count": 215
+      },
+      "train_positive_count": 190,
+      "train_prevalence": 0.1700984780662489
+    }
+  },
+  "train_questions": 1117,
+  "train_run": "artifacts/extraction/arc_train_qwen3_1.7b/qwen3-1.7b_seed42"
+}

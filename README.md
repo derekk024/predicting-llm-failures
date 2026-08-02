@@ -97,8 +97,17 @@ pinned train, validation, and test extraction configs are under `configs/extract
 
 The first [`ARC validation probe report`](reports/arc-validation-probes.md) is a negative result:
 single-layer activation probes predict flips above chance but underperform combined logit features
-for all three perturbations. The held-out ARC test split remains untouched while the planned
-late-layer MLP is developed.
+for all three perturbations. At that stage, the ARC test split remained untouched while the
+late-layer MLP and no-refit evaluator were frozen.
+
+The frozen [`held-out ARC report`](reports/arc-heldout-results.md) finds that the late-layer MLP
+nearly matches, but does not beat, combined logit features on the natural test distribution. A
+predeclared margin-matched diagnostic finds a narrower positive result for choice reordering.
+
+![Held-out AUROC comparison](reports/figures/heldout-auroc.png)
+
+Machine-readable summaries for the prompt gate, validation probes, validation MLP, and held-out
+evaluation are tracked under [`reports/results/`](reports/results/).
 
 ## Scope and leakage rules
 
