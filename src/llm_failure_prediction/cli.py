@@ -5,6 +5,7 @@ from pathlib import Path
 
 from llm_failure_prediction.config import load_config, load_gate_config
 from llm_failure_prediction.gate import run_model_gate
+from llm_failure_prediction.mlp import load_mlp_config, run_mlp_benchmark
 from llm_failure_prediction.pilot import run_pilot
 from llm_failure_prediction.probes import load_probe_config, run_probe_benchmark
 
@@ -32,6 +33,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     probe.add_argument("--config", type=Path, required=True)
     probe.add_argument("--run-id", help="Use a stable output directory name")
+    mlp = subparsers.add_parser(
+        "mlp",
+        help="Train a regularized MLP over validation-selected activation layers",
+    )
+    mlp.add_argument("--config", type=Path, required=True)
+    mlp.add_argument("--run-id", help="Use a stable output directory name")
     return parser
 
 
@@ -53,6 +60,10 @@ def main(argv: list[str] | None = None) -> None:
         config = load_probe_config(args.config)
         output_dir = run_probe_benchmark(config, run_id=args.run_id)
         print(f"Probe artifacts written to {output_dir}")
+    elif args.command == "mlp":
+        config = load_mlp_config(args.config)
+        output_dir = run_mlp_benchmark(config, run_id=args.run_id)
+        print(f"MLP artifacts written to {output_dir}")
 
 
 if __name__ == "__main__":

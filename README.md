@@ -68,6 +68,16 @@ bootstrap intervals directly compare the selected activation probe against the c
 logit-feature baseline on the same questions. A separate 1:1 nearest-neighbor diagnostic compares
 discrimination after matching flipped and non-flipped examples on clean top-two logit margin.
 
+Train the planned small PyTorch MLP over the top three validation-selected activation layers:
+
+```bash
+llm-failures mlp --config configs/mlp_arc_validation.yaml
+```
+
+The MLP uses train-only feature standardization, dropout, weight decay, and validation-loss early
+stopping. It saves the selected layers, normalization statistics, and best model checkpoint for a
+single frozen evaluation on ARC test.
+
 Artifacts are excluded from Git and written below `artifacts/pilot_arc/`. A run manifest records
 the resolved Hugging Face commit, package versions, answer token IDs, device, activation shape,
 and elapsed time. The default config also pins the model and ARC dataset repository commits.
