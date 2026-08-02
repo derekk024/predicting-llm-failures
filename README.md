@@ -5,7 +5,7 @@ controlled prompt perturbation, beyond what its output confidence already reveal
 
 This repository starts with a local-first ARC pilot for `Qwen/Qwen3-0.6B`. It scores the next-token
 logits for `A/B/C/D`, disables Qwen thinking mode, creates three paired perturbations, and caches
-only the clean prompt's final-position residual stream after every transformer block.
+only the clean prompt's final-position hidden states (excluding embeddings).
 
 ## Pilot design
 
@@ -55,7 +55,7 @@ llm-failures model-gate --config configs/prompt_model_gate.yaml
 ```
 
 After extracting the frozen ARC train and validation configurations, fit calibrated confidence
-baselines and one logistic-regression probe per transformer layer:
+baselines and one logistic-regression probe per cached hidden-state index:
 
 ```bash
 llm-failures probe --config configs/probes_arc_validation.yaml
@@ -120,6 +120,18 @@ llm-failures heldout --config configs/ood_mmlu.yaml
 The [`MMLU transfer report`](reports/mmlu-transfer.md) finds that activation predictors remain above
 chance but do not outperform frozen ARC-trained logit baselines out of domain.
 
+Run the controlled causal follow-up on 201 flipped ARC prompt pairs (67 per perturbation):
+
+```bash
+llm-failures patch --config configs/patching_arc_test.yaml
+```
+
+The command patches the clean final-position state into the perturbed replay at one
+validation-selected location per target. It also runs an unrelated-question patch, a random
+displacement matched to the clean-patch displacement norm, and an identity patch. Replayed and
+identity-patched logits must match the original extraction before the experiment proceeds. Paired
+bootstrap intervals compare clean-patch restoration and margin effects against both controls.
+
 ## Scope and leakage rules
 
 - The unit of splitting is always the original `question_id`; paired variants must never cross
@@ -128,8 +140,8 @@ chance but do not outperform frozen ARC-trained logit baselines out of domain.
 - Entropy is computed over the normalized four-answer distribution, and margin is the difference
   between the largest two answer logits.
 - Perturbation strength must be selected using validation data, never the held-out evaluation set.
-- Activation patching is a later follow-up and requires unrelated-activation and norm-matched-noise
-  controls before any causal claim.
+- Activation patching requires unrelated-activation and norm-matched-noise controls; intervention
+  results are not automatically evidence for a broad causal mechanism.
 
 ## Roadmap
 

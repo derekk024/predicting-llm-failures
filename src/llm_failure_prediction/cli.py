@@ -7,6 +7,7 @@ from llm_failure_prediction.config import load_config, load_gate_config
 from llm_failure_prediction.gate import run_model_gate
 from llm_failure_prediction.heldout import load_heldout_config, run_heldout_evaluation
 from llm_failure_prediction.mlp import load_mlp_config, run_mlp_benchmark
+from llm_failure_prediction.patching import load_patching_config, run_patching
 from llm_failure_prediction.pilot import run_pilot
 from llm_failure_prediction.probes import load_probe_config, run_probe_benchmark
 
@@ -46,6 +47,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     heldout.add_argument("--config", type=Path, required=True)
     heldout.add_argument("--run-id", help="Use a stable output directory name")
+    patch = subparsers.add_parser(
+        "patch",
+        help="Patch clean final-position activations into flipped perturbed prompts",
+    )
+    patch.add_argument("--config", type=Path, required=True)
+    patch.add_argument("--run-id", help="Use a stable output directory name")
     return parser
 
 
@@ -75,6 +82,10 @@ def main(argv: list[str] | None = None) -> None:
         config = load_heldout_config(args.config)
         output_dir = run_heldout_evaluation(config, run_id=args.run_id)
         print(f"Held-out artifacts written to {output_dir}")
+    elif args.command == "patch":
+        config = load_patching_config(args.config)
+        output_dir = run_patching(config, run_id=args.run_id)
+        print(f"Patching artifacts written to {output_dir}")
 
 
 if __name__ == "__main__":

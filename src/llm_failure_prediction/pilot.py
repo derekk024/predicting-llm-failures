@@ -227,7 +227,8 @@ def run_pilot(config: ExperimentConfig, *, run_id: str | None = None) -> Path:
             "activation_shape": list(activation_array.shape),
             "activation_dtype": str(activation_array.dtype),
             "activation_semantics": (
-                "clean run, final prompt position, output of each transformer block"
+                "clean run, final prompt position; cache indices 0..N-2 are outputs of "
+                "blocks 0..N-2 and index N-1 is the terminal normalized hidden state"
             ),
         },
     )

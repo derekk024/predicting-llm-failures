@@ -6,6 +6,11 @@ Qwen3-1.7B was run on all usable four-choice ARC-Challenge examples: 1,117 train
 295 validation questions. Train and validation question IDs were disjoint. Clean final-position
 activations had shape `[question, 28, 2048]`; only clean activations were probe inputs.
 
+The reported layer numbers are cached hidden-state indices. Under the pinned Hugging Face Qwen3
+implementation, indices 0–26 are post-block residual states and index 27 is the terminal normalized
+state after the final block. This distinction does not change the predictive fits, but it determines
+the correct intervention point for the causal follow-up.
+
 For each perturbation, the benchmark fit:
 
 - calibrated majority, entropy, and top-two-margin baselines;

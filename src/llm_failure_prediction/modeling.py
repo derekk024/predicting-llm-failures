@@ -134,6 +134,75 @@ class MultipleChoiceModel:
             clean_activations=clean_activations.float().cpu().numpy(),
         )
 
+    @torch.inference_mode()
+    def score_with_patch(
+        self,
+        rendered_prompts: list[str],
+        *,
+        patch_index: int,
+        layer_index: int,
+        patch_vector: np.ndarray,
+    ) -> np.ndarray:
+        backbone = getattr(self.model, "model", None)
+        layers = getattr(backbone, "layers", None)
+        if layers is None:
+            raise TypeError("Model does not expose transformer blocks at model.layers")
+        if layer_index not in range(len(layers)):
+            raise IndexError(f"Layer {layer_index} is outside [0, {len(layers)})")
+        if patch_index not in range(len(rendered_prompts)):
+            raise IndexError(f"Patch row {patch_index} is outside [0, {len(rendered_prompts)})")
+
+        encoded = self.tokenizer(
+            rendered_prompts,
+            return_tensors="pt",
+            padding=True,
+            add_special_tokens=False,
+        )
+        encoded = {name: tensor.to(self.device) for name, tensor in encoded.items()}
+        last_position = int(encoded["attention_mask"][patch_index].sum().item() - 1)
+        patch = torch.as_tensor(
+            patch_vector,
+            device=self.device,
+            dtype=next(self.model.parameters()).dtype,
+        )
+
+        def replace_final_position(_module, _inputs, output):
+            hidden = output[0] if isinstance(output, tuple) else output
+            if patch.shape != hidden.shape[-1:]:
+                raise ValueError(
+                    f"Patch shape {tuple(patch.shape)} does not match hidden size "
+                    f"{hidden.shape[-1]}"
+                )
+            # Avoid indexed assignment here: it can produce an invalid MPS graph for Qwen's
+            # following matrix multiplication even though the eager tensor shape is correct.
+            rows = torch.arange(hidden.shape[0], device=self.device)[:, None]
+            positions = torch.arange(hidden.shape[1], device=self.device)[None, :]
+            mask = (rows == patch_index) & (positions == last_position)
+            patched_hidden = torch.where(mask[..., None], patch.reshape(1, 1, -1), hidden)
+            if isinstance(output, tuple):
+                return (patched_hidden, *output[1:])
+            return patched_hidden
+
+        # Hugging Face returns the embedding state, outputs of blocks 0..N-2, and the terminal
+        # normalized state. After excluding the embedding, cached feature N-1 therefore maps to
+        # the final norm rather than the pre-norm output of block N-1.
+        target_module = backbone.norm if layer_index == len(layers) - 1 else layers[layer_index]
+        handle = target_module.register_forward_hook(replace_final_position)
+        try:
+            outputs = self.model(**encoded, output_hidden_states=False, use_cache=False)
+        finally:
+            handle.remove()
+        candidate_ids = torch.tensor(
+            [self.answer_token_ids[label] for label in ANSWER_LABELS],
+            device=self.device,
+        )
+        answer_logits = (
+            outputs.logits[patch_index, last_position, :].index_select(-1, candidate_ids).float()
+        )
+        if not torch.isfinite(answer_logits).all():
+            raise FloatingPointError("Patched forward pass produced non-finite answer logits")
+        return answer_logits.cpu().numpy()
+
     @property
     def model_commit(self) -> str | None:
         return getattr(self.model.config, "_commit_hash", None)
