@@ -78,6 +78,13 @@ The MLP uses train-only feature standardization, dropout, weight decay, and vali
 stopping. It saves the selected layers, normalization statistics, and best model checkpoint for a
 single frozen evaluation on ARC test.
 
+After all model and layer choices are frozen, evaluate the saved artifacts once on ARC test without
+refitting or reselection:
+
+```bash
+llm-failures heldout --config configs/heldout_arc_test.yaml
+```
+
 Artifacts are excluded from Git and written below `artifacts/pilot_arc/`. A run manifest records
 the resolved Hugging Face commit, package versions, answer token IDs, device, activation shape,
 and elapsed time. The default config also pins the model and ARC dataset repository commits.
