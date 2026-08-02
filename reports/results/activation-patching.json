@@ -1,0 +1,290 @@
+{
+  "interpretation_scope": "Controlled final-position interventions on flipped ARC test pairs; this summary does not establish a general mechanism or incremental predictive value.",
+  "preterminal_sensitivity_artifact": "artifacts/patching/arc_test_reorder_preterminal/qwen3-1.7b_seed42_layer26/patching-results.json",
+  "preterminal_sensitivity_summary": {
+    "n_examples": 67,
+    "targets": {
+      "reorder_choices": {
+        "interventions": {
+          "clean_patch": {
+            "max_abs_logit_change": 27.125,
+            "mean_clean_answer_margin_change": -0.40951492537313433,
+            "restoration_count": 10,
+            "restoration_rate": 0.14925373134328357
+          },
+          "norm_matched_noise": {
+            "max_abs_logit_change": 13.0,
+            "mean_clean_answer_margin_change": 0.5326492537313433,
+            "restoration_count": 2,
+            "restoration_rate": 0.029850746268656716
+          },
+          "perturbed_identity_patch": {
+            "max_abs_logit_change": 0.0,
+            "mean_clean_answer_margin_change": 0.0,
+            "restoration_count": 0,
+            "restoration_rate": 0.0
+          },
+          "unrelated_patch": {
+            "max_abs_logit_change": 30.0,
+            "mean_clean_answer_margin_change": 0.42350746268656714,
+            "restoration_count": 20,
+            "restoration_rate": 0.29850746268656714
+          }
+        },
+        "layer_index": 26,
+        "max_replay_abs_logit_difference": 0.0,
+        "n_examples": 67,
+        "paired_comparisons": {
+          "clean_patch_minus_norm_matched_noise": {
+            "clean_answer_margin_change": {
+              "bootstrap_interval": [
+                -3.8739272388059693,
+                2.1038712686567154
+              ],
+              "point_difference": -0.9421641791044776
+            },
+            "difference_definition": "clean patch effect minus paired control effect",
+            "restoration_rate": {
+              "bootstrap_interval": [
+                0.04477611940298507,
+                0.208955223880597
+              ],
+              "point_difference": 0.11940298507462686
+            }
+          },
+          "clean_patch_minus_unrelated_patch": {
+            "clean_answer_margin_change": {
+              "bootstrap_interval": [
+                -5.56103078358209,
+                3.7918610074626855
+              ],
+              "point_difference": -0.8330223880597015
+            },
+            "difference_definition": "clean patch effect minus paired control effect",
+            "restoration_rate": {
+              "bootstrap_interval": [
+                -0.2835820895522388,
+                0.0
+              ],
+              "point_difference": -0.14925373134328357
+            }
+          }
+        }
+      }
+    }
+  },
+  "primary_artifact": "artifacts/patching/arc_test/qwen3-1.7b_seed42/patching-results.json",
+  "primary_summary": {
+    "n_examples": 201,
+    "targets": {
+      "incorrect_hint": {
+        "interventions": {
+          "clean_patch": {
+            "max_abs_logit_change": 20.75,
+            "mean_clean_answer_margin_change": 14.162313432835822,
+            "restoration_count": 67,
+            "restoration_rate": 1.0
+          },
+          "norm_matched_noise": {
+            "max_abs_logit_change": 8.0,
+            "mean_clean_answer_margin_change": 0.6511194029850746,
+            "restoration_count": 4,
+            "restoration_rate": 0.05970149253731343
+          },
+          "perturbed_identity_patch": {
+            "max_abs_logit_change": 0.0,
+            "mean_clean_answer_margin_change": 0.0,
+            "restoration_count": 0,
+            "restoration_rate": 0.0
+          },
+          "unrelated_patch": {
+            "max_abs_logit_change": 30.375,
+            "mean_clean_answer_margin_change": -2.826492537313433,
+            "restoration_count": 18,
+            "restoration_rate": 0.26865671641791045
+          }
+        },
+        "layer_index": 26,
+        "max_replay_abs_logit_difference": 0.0,
+        "n_examples": 67,
+        "paired_comparisons": {
+          "clean_patch_minus_norm_matched_noise": {
+            "clean_answer_margin_change": {
+              "bootstrap_interval": [
+                11.690298507462687,
+                15.462919776119403
+              ],
+              "point_difference": 13.511194029850746
+            },
+            "difference_definition": "clean patch effect minus paired control effect",
+            "restoration_rate": {
+              "bootstrap_interval": [
+                0.8805970149253731,
+                0.9850746268656716
+              ],
+              "point_difference": 0.9402985074626866
+            }
+          },
+          "clean_patch_minus_unrelated_patch": {
+            "clean_answer_margin_change": {
+              "bootstrap_interval": [
+                12.046595149253731,
+                21.453031716417907
+              ],
+              "point_difference": 16.988805970149254
+            },
+            "difference_definition": "clean patch effect minus paired control effect",
+            "restoration_rate": {
+              "bootstrap_interval": [
+                0.6119402985074627,
+                0.835820895522388
+              ],
+              "point_difference": 0.7313432835820896
+            }
+          }
+        }
+      },
+      "irrelevant_sentence": {
+        "interventions": {
+          "clean_patch": {
+            "max_abs_logit_change": 26.375,
+            "mean_clean_answer_margin_change": 18.467350746268657,
+            "restoration_count": 62,
+            "restoration_rate": 0.9253731343283582
+          },
+          "norm_matched_noise": {
+            "max_abs_logit_change": 10.25,
+            "mean_clean_answer_margin_change": 0.3376865671641791,
+            "restoration_count": 4,
+            "restoration_rate": 0.05970149253731343
+          },
+          "perturbed_identity_patch": {
+            "max_abs_logit_change": 0.0,
+            "mean_clean_answer_margin_change": 0.0,
+            "restoration_count": 0,
+            "restoration_rate": 0.0
+          },
+          "unrelated_patch": {
+            "max_abs_logit_change": 30.125,
+            "mean_clean_answer_margin_change": -0.23134328358208955,
+            "restoration_count": 22,
+            "restoration_rate": 0.3283582089552239
+          }
+        },
+        "layer_index": 22,
+        "max_replay_abs_logit_difference": 0.0,
+        "n_examples": 67,
+        "paired_comparisons": {
+          "clean_patch_minus_norm_matched_noise": {
+            "clean_answer_margin_change": {
+              "bootstrap_interval": [
+                15.784328358208956,
+                20.462966417910447
+              ],
+              "point_difference": 18.129664179104477
+            },
+            "difference_definition": "clean patch effect minus paired control effect",
+            "restoration_rate": {
+              "bootstrap_interval": [
+                0.7910447761194029,
+                0.9402985074626866
+              ],
+              "point_difference": 0.8656716417910447
+            }
+          },
+          "clean_patch_minus_unrelated_patch": {
+            "clean_answer_margin_change": {
+              "bootstrap_interval": [
+                14.195638992537313,
+                23.108722014925373
+              ],
+              "point_difference": 18.698694029850746
+            },
+            "difference_definition": "clean patch effect minus paired control effect",
+            "restoration_rate": {
+              "bootstrap_interval": [
+                0.4626865671641791,
+                0.716791044776119
+              ],
+              "point_difference": 0.5970149253731343
+            }
+          }
+        }
+      },
+      "reorder_choices": {
+        "interventions": {
+          "clean_patch": {
+            "max_abs_logit_change": 27.125,
+            "mean_clean_answer_margin_change": -0.42257462686567165,
+            "restoration_count": 10,
+            "restoration_rate": 0.14925373134328357
+          },
+          "norm_matched_noise": {
+            "max_abs_logit_change": 4.0,
+            "mean_clean_answer_margin_change": 0.26119402985074625,
+            "restoration_count": 2,
+            "restoration_rate": 0.029850746268656716
+          },
+          "perturbed_identity_patch": {
+            "max_abs_logit_change": 0.0,
+            "mean_clean_answer_margin_change": 0.0,
+            "restoration_count": 0,
+            "restoration_rate": 0.0
+          },
+          "unrelated_patch": {
+            "max_abs_logit_change": 29.125,
+            "mean_clean_answer_margin_change": -0.5149253731343284,
+            "restoration_count": 16,
+            "restoration_rate": 0.23880597014925373
+          }
+        },
+        "layer_index": 27,
+        "max_replay_abs_logit_difference": 0.0,
+        "n_examples": 67,
+        "paired_comparisons": {
+          "clean_patch_minus_norm_matched_noise": {
+            "clean_answer_margin_change": {
+              "bootstrap_interval": [
+                -3.839622201492537,
+                2.3052005597014915
+              ],
+              "point_difference": -0.683768656716418
+            },
+            "difference_definition": "clean patch effect minus paired control effect",
+            "restoration_rate": {
+              "bootstrap_interval": [
+                0.029850746268656716,
+                0.22388059701492538
+              ],
+              "point_difference": 0.11940298507462686
+            }
+          },
+          "clean_patch_minus_unrelated_patch": {
+            "clean_answer_margin_change": {
+              "bootstrap_interval": [
+                -4.095055970149253,
+                4.155130597014924
+              ],
+              "point_difference": 0.09235074626865672
+            },
+            "difference_definition": "clean patch effect minus paired control effect",
+            "restoration_rate": {
+              "bootstrap_interval": [
+                -0.23880597014925373,
+                0.05970149253731343
+              ],
+              "point_difference": -0.08955223880597014
+            }
+          }
+        }
+      }
+    }
+  },
+  "reorder_terminal_coordinate_diagnostic": {
+    "clean_patch_restoration_moved_letter": 0,
+    "clean_patch_restoration_same_letter": 10,
+    "moved_to_different_letter_count": 57,
+    "same_displayed_letter_count": 10
+  },
+  "schema_version": 1
+}

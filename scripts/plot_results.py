@@ -15,6 +15,11 @@ COLORS = {
     "single_layer": "#D98E3D",
     "mlp": "#A63D40",
 }
+PATCH_COLORS = {
+    "clean_patch": "#2D6A9F",
+    "unrelated_patch": "#D98E3D",
+    "norm_matched_noise": "#7A8CA5",
+}
 
 
 def _load(path: Path) -> dict:
@@ -170,11 +175,43 @@ def plot_ood_transfer(arc_results: dict, mmlu_results: dict, output_path: Path) 
     plt.close(fig)
 
 
+def plot_patch_restoration(results: dict, output_path: Path) -> None:
+    interventions = ["clean_patch", "unrelated_patch", "norm_matched_noise"]
+    labels = ["Clean state", "Unrelated state", "Norm-matched noise"]
+    x = np.arange(len(TARGETS))
+    width = 0.24
+    fig, ax = plt.subplots(figsize=(9.2, 4.8))
+    for intervention_index, (intervention, label) in enumerate(
+        zip(interventions, labels, strict=True)
+    ):
+        values = [
+            results["summary"]["targets"][target]["interventions"][intervention]["restoration_rate"]
+            for target in TARGETS
+        ]
+        offset = (intervention_index - (len(interventions) - 1) / 2) * width
+        ax.bar(
+            x + offset,
+            values,
+            width,
+            label=label,
+            color=PATCH_COLORS[intervention],
+        )
+    ax.set_xticks(x, TARGET_LABELS)
+    ax.set_ylim(0, 1.08)
+    ax.set_ylabel("Original semantic answer restored")
+    ax.set_title("Clean-state patches restore hint and context flips (67 pairs per target)")
+    ax.legend(frameon=False, ncol=3, loc="upper center")
+    fig.tight_layout()
+    fig.savefig(output_path, bbox_inches="tight")
+    plt.close(fig)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--heldout-results", type=Path, required=True)
     parser.add_argument("--probe-results", type=Path, required=True)
     parser.add_argument("--ood-results", type=Path)
+    parser.add_argument("--patching-results", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -187,6 +224,9 @@ def main() -> None:
     if args.ood_results is not None:
         ood = _load(args.ood_results)
         plot_ood_transfer(heldout, ood, args.output_dir / "ood-transfer-auroc.png")
+    if args.patching_results is not None:
+        patching = _load(args.patching_results)
+        plot_patch_restoration(patching, args.output_dir / "patch-restoration.png")
 
 
 if __name__ == "__main__":

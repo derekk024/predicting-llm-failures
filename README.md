@@ -132,6 +132,11 @@ displacement matched to the clean-patch displacement norm, and an identity patch
 identity-patched logits must match the original extraction before the experiment proceeds. Paired
 bootstrap intervals compare clean-patch restoration and margin effects against both controls.
 
+The completed [`activation-patching report`](reports/activation-patching.md) finds strong controlled
+answer-restoration effects for incorrect hints and irrelevant context, but not for semantically
+remapped reordered choices. This causal intervention result is intentionally kept separate from
+the project's negative predictive comparison against output-confidence features.
+
 Because a terminal-state patch cannot remap an answer when reordered choices change the displayed
 letter, a paired post-hoc sensitivity patches the nearest preterminal residual state on exactly the
 same 67 reorder examples:
