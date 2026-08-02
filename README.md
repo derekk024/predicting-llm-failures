@@ -54,6 +54,17 @@ model sizes. This gate uses 100 ARC validation questions and does not touch the 
 llm-failures model-gate --config configs/prompt_model_gate.yaml
 ```
 
+After extracting the frozen ARC train and validation configurations, fit calibrated confidence
+baselines and one logistic-regression probe per transformer layer:
+
+```bash
+llm-failures probe --config configs/probes_arc_validation.yaml
+```
+
+The probe command reports AUROC, AUPRC, Brier score, expected calibration error, bootstrap
+intervals for the main comparisons, and metrics on the originally-correct subset. It saves the
+fitted confidence models and validation-selected layer probe for held-out evaluation.
+
 Artifacts are excluded from Git and written below `artifacts/pilot_arc/`. A run manifest records
 the resolved Hugging Face commit, package versions, answer token IDs, device, activation shape,
 and elapsed time. The default config also pins the model and ARC dataset repository commits.
