@@ -143,10 +143,38 @@ def plot_calibration(results: dict, output_path: Path) -> None:
     plt.close(fig)
 
 
+def plot_ood_transfer(arc_results: dict, mmlu_results: dict, output_path: Path) -> None:
+    series = [
+        (arc_results, "logit_features", "ARC logit", "#2D6A9F"),
+        (arc_results, "mlp", "ARC MLP", "#A63D40"),
+        (mmlu_results, "logit_features", "MMLU logit", "#79A9D1"),
+        (mmlu_results, "mlp", "MMLU MLP", "#D67A7D"),
+    ]
+    x = np.arange(len(TARGETS))
+    width = 0.19
+    fig, ax = plt.subplots(figsize=(9.2, 4.8))
+    for series_index, (results, model, label, color) in enumerate(series):
+        values = [
+            results["targets"][target]["models"][model]["metrics"]["auroc"] for target in TARGETS
+        ]
+        offset = (series_index - (len(series) - 1) / 2) * width
+        ax.bar(x + offset, values, width, label=label, color=color)
+    ax.axhline(0.5, color="#333333", linewidth=1, linestyle="--", alpha=0.7)
+    ax.set_xticks(x, TARGET_LABELS)
+    ax.set_ylim(0.45, 0.9)
+    ax.set_ylabel("AUROC")
+    ax.set_title("Frozen ARC-trained predictors transfer to MMLU, but activations do not lead")
+    ax.legend(frameon=False, ncol=2, loc="upper right")
+    fig.tight_layout()
+    fig.savefig(output_path, bbox_inches="tight")
+    plt.close(fig)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--heldout-results", type=Path, required=True)
     parser.add_argument("--probe-results", type=Path, required=True)
+    parser.add_argument("--ood-results", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -156,6 +184,9 @@ def main() -> None:
     plot_heldout_auroc(heldout, args.output_dir / "heldout-auroc.png")
     plot_layerwise_validation(probes, args.output_dir / "validation-layerwise-auroc.png")
     plot_calibration(heldout, args.output_dir / "heldout-calibration.png")
+    if args.ood_results is not None:
+        ood = _load(args.ood_results)
+        plot_ood_transfer(heldout, ood, args.output_dir / "ood-transfer-auroc.png")
 
 
 if __name__ == "__main__":

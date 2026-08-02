@@ -117,6 +117,9 @@ llm-failures pilot --config configs/extraction/mmlu_test_qwen3_1.7b.yaml
 llm-failures heldout --config configs/ood_mmlu.yaml
 ```
 
+The [`MMLU transfer report`](reports/mmlu-transfer.md) finds that activation predictors remain above
+chance but do not outperform frozen ARC-trained logit baselines out of domain.
+
 ## Scope and leakage rules
 
 - The unit of splitting is always the original `question_id`; paired variants must never cross
