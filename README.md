@@ -1,0 +1,76 @@
+# Predicting LLM Failures from Internal Activations
+
+Can an LLM's clean-prompt internal activations predict whether its answer will change under a
+controlled prompt perturbation, beyond what its output confidence already reveals?
+
+This repository starts with a local-first ARC pilot for `Qwen/Qwen3-0.6B`. It scores the next-token
+logits for `A/B/C/D`, disables Qwen thinking mode, creates three paired perturbations, and caches
+only the clean prompt's final-position residual stream after every transformer block.
+
+## Pilot design
+
+The default pilot samples 200 four-choice questions from ARC-Challenge's training split with a
+fixed seed. It keeps the official validation split available for selecting hint strength later.
+For each question it evaluates:
+
+1. the clean prompt;
+2. an incorrect answer hint;
+3. deterministically reordered choices; and
+4. an irrelevant question sentence.
+
+Reordered answers are mapped back to their original semantic choice before flip rates are
+computed. The output schema is documented in [`docs/data-schema.md`](docs/data-schema.md).
+
+## Local setup
+
+Python 3.12 is recommended. On Apple Silicon, the defaults select MPS and bfloat16. Qwen's
+float16 forward pass can produce non-finite logits on MPS, while bfloat16 matches its native
+weights and is stable on M3 hardware.
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements-lock.txt
+pytest
+```
+
+Run a two-question end-to-end smoke test before the full pilot:
+
+```bash
+llm-failures pilot --config configs/pilot_arc.yaml --limit 2 --run-id smoke
+```
+
+Then run the configured 200-question pilot:
+
+```bash
+llm-failures pilot --config configs/pilot_arc.yaml
+```
+
+Artifacts are excluded from Git and written below `artifacts/pilot_arc/`. A run manifest records
+the resolved Hugging Face commit, package versions, answer token IDs, device, activation shape,
+and elapsed time. The default config also pins the model and ARC dataset repository commits.
+
+The completed Week 1 run and its main caveat are recorded in
+[`reports/week1-pilot.md`](reports/week1-pilot.md). The 0.6B model has a strong answer-position bias,
+so prompt-format and 1.7B comparisons are the next gate before scaling the dataset.
+
+## Scope and leakage rules
+
+- The unit of splitting is always the original `question_id`; paired variants must never cross
+  splits.
+- Only clean-run activations are probe features. Perturbed runs supply outcome labels.
+- Entropy is computed over the normalized four-answer distribution, and margin is the difference
+  between the largest two answer logits.
+- Perturbation strength must be selected using validation data, never the held-out evaluation set.
+- Activation patching is a later follow-up and requires unrelated-activation and norm-matched-noise
+  controls before any causal claim.
+
+## Roadmap
+
+- Week 1: evaluator, schema, activation cache, and 200-question ARC pilot.
+- Week 2: scale paired data and measure label balance across hint strengths.
+- Week 3: confidence baselines and one logistic-regression probe per layer.
+- Week 4: grouped evaluation, calibration, bootstrap intervals, and MMLU transfer.
+- Week 5: final-position activation patching with negative controls.
+- Week 6: final runs, plots, tests, README, and short report.

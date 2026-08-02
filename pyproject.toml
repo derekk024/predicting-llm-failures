@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-failure-prediction"
+version = "0.1.0"
+description = "Predict controlled LLM answer changes from internal activations."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Frank Kronewitter" }]
+dependencies = [
+  "datasets>=3.2,<5",
+  "numpy>=1.26,<3",
+  "pydantic>=2.8,<3",
+  "PyYAML>=6.0,<7",
+  "torch>=2.6,<2.7",
+  "transformers>=4.57,<4.58",
+]
+
+[project.optional-dependencies]
+analysis = [
+  "matplotlib>=3.9,<4",
+  "pandas>=2.2,<3",
+  "scikit-learn>=1.5,<2",
+  "seaborn>=0.13,<1",
+]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-cov>=6,<7",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+llm-failures = "llm_failure_prediction.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
