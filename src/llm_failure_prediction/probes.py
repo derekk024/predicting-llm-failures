@@ -218,6 +218,100 @@ def bootstrap_intervals(
     return intervals
 
 
+def paired_metric_differences(
+    y_true: np.ndarray,
+    activation_probabilities: np.ndarray,
+    baseline_probabilities: np.ndarray,
+    *,
+    calibration_bins: int,
+) -> dict[str, float | None]:
+    activation = probability_metrics(
+        y_true,
+        activation_probabilities,
+        calibration_bins=calibration_bins,
+    )
+    baseline = probability_metrics(
+        y_true,
+        baseline_probabilities,
+        calibration_bins=calibration_bins,
+    )
+    return {
+        name: (
+            float(activation[name] - baseline[name])
+            if activation[name] is not None and baseline[name] is not None
+            else None
+        )
+        for name in activation
+    }
+
+
+def paired_bootstrap_difference_intervals(
+    y_true: np.ndarray,
+    activation_probabilities: np.ndarray,
+    baseline_probabilities: np.ndarray,
+    *,
+    samples: int,
+    confidence_level: float,
+    calibration_bins: int,
+    seed: int,
+) -> dict[str, list[float] | None]:
+    if samples == 0:
+        return {name: None for name in ("auroc", "auprc", "brier", "ece")}
+    rng = np.random.default_rng(seed)
+    collected: dict[str, list[float]] = {name: [] for name in ("auroc", "auprc", "brier", "ece")}
+    for _ in range(samples):
+        indices = rng.integers(0, len(y_true), size=len(y_true))
+        differences = paired_metric_differences(
+            y_true[indices],
+            activation_probabilities[indices],
+            baseline_probabilities[indices],
+            calibration_bins=calibration_bins,
+        )
+        for name, value in differences.items():
+            if value is not None:
+                collected[name].append(value)
+
+    alpha = (1.0 - confidence_level) / 2.0
+    return {
+        name: ([float(x) for x in np.quantile(values, [alpha, 1.0 - alpha])] if values else None)
+        for name, values in collected.items()
+    }
+
+
+def margin_matched_indices(y_true: np.ndarray, margin: np.ndarray) -> np.ndarray:
+    y_true = np.asarray(y_true)
+    margin = np.asarray(margin)
+    positive = np.flatnonzero(y_true == 1)
+    negative = np.flatnonzero(y_true == 0)
+    if not len(positive) or not len(negative):
+        raise ValueError("Margin matching requires both outcome classes")
+
+    anchors, candidates = (
+        (positive, negative) if len(positive) <= len(negative) else (negative, positive)
+    )
+    anchors = anchors[np.argsort(margin[anchors], kind="stable")]
+    available = list(candidates[np.argsort(margin[candidates], kind="stable")])
+    matched_candidates = []
+    for anchor in anchors:
+        distances = np.abs(margin[np.asarray(available)] - margin[anchor])
+        match_position = int(np.argmin(distances))
+        matched_candidates.append(available.pop(match_position))
+    return np.sort(np.concatenate([anchors, np.asarray(matched_candidates)]))
+
+
+def _standardized_mean_difference(
+    y_true: np.ndarray,
+    values: np.ndarray,
+) -> float:
+    positive = values[y_true == 1]
+    negative = values[y_true == 0]
+    ddof = 1 if min(len(positive), len(negative)) > 1 else 0
+    pooled_variance = (positive.var(ddof=ddof) + negative.var(ddof=ddof)) / 2.0
+    if pooled_variance == 0.0:
+        return 0.0 if positive.mean() == negative.mean() else float("inf")
+    return float((positive.mean() - negative.mean()) / np.sqrt(pooled_variance))
+
+
 def _fit_logistic(config: LogisticConfig, seed: int) -> Pipeline:
     return Pipeline(
         [
@@ -426,6 +520,28 @@ def run_probe_benchmark(
             layer_models[best_position],
             models_dir / f"{target}__layer_{best_layer}.joblib",
         )
+        logit_probabilities = baseline_probabilities["logit_features"]
+        target_result["activation_vs_logit_features"] = {
+            "difference_definition": (
+                "activation metric minus logit-feature metric; positive favors activations for "
+                "AUROC/AUPRC, negative favors activations for Brier/ECE"
+            ),
+            "point_differences": paired_metric_differences(
+                evaluation_y,
+                best_probabilities,
+                logit_probabilities,
+                calibration_bins=config.calibration_bins,
+            ),
+            "bootstrap_difference_intervals": paired_bootstrap_difference_intervals(
+                evaluation_y,
+                best_probabilities,
+                logit_probabilities,
+                samples=config.bootstrap.samples,
+                confidence_level=config.bootstrap.confidence_level,
+                calibration_bins=config.calibration_bins,
+                seed=seed_offset + 101,
+            ),
+        }
 
         correct_mask = evaluation.originally_correct
         correct_result: dict[str, Any] = {
@@ -455,6 +571,55 @@ def run_probe_benchmark(
             ),
         }
         target_result["originally_correct_subset"] = correct_result
+
+        matched_indices = margin_matched_indices(evaluation_y, evaluation.margin)
+        matched_y = evaluation_y[matched_indices]
+        matched_models = {
+            "entropy": baseline_probabilities["entropy"],
+            "margin": baseline_probabilities["margin"],
+            "logit_features": logit_probabilities,
+            "best_layer": best_probabilities,
+        }
+        matched_result: dict[str, Any] = {
+            "method": (
+                "1:1 greedy nearest-neighbor matching without replacement on the clean "
+                "top-two logit margin"
+            ),
+            "pair_count": int(len(matched_indices) // 2),
+            "question_count": int(len(matched_indices)),
+            "positive_mean_margin": float(
+                evaluation.margin[matched_indices][matched_y == 1].mean()
+            ),
+            "negative_mean_margin": float(
+                evaluation.margin[matched_indices][matched_y == 0].mean()
+            ),
+            "margin_standardized_mean_difference": _standardized_mean_difference(
+                matched_y,
+                evaluation.margin[matched_indices],
+            ),
+            "models": {},
+        }
+        for name, probabilities in matched_models.items():
+            metrics = probability_metrics(
+                matched_y,
+                probabilities[matched_indices],
+                calibration_bins=config.calibration_bins,
+            )
+            matched_result["models"][name] = {
+                "auroc": metrics["auroc"],
+                "auprc": metrics["auprc"],
+            }
+        matched_result["activation_vs_logit_features"] = {
+            name: value
+            for name, value in paired_metric_differences(
+                matched_y,
+                best_probabilities[matched_indices],
+                logit_probabilities[matched_indices],
+                calibration_bins=config.calibration_bins,
+            ).items()
+            if name in {"auroc", "auprc"}
+        }
+        target_result["margin_matched_subset"] = matched_result
         results["targets"][target] = target_result
         print(
             f"Finished {target}: best layer {best_layer}, "

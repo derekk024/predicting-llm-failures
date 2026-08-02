@@ -63,7 +63,10 @@ llm-failures probe --config configs/probes_arc_validation.yaml
 
 The probe command reports AUROC, AUPRC, Brier score, expected calibration error, bootstrap
 intervals for the main comparisons, and metrics on the originally-correct subset. It saves the
-fitted confidence models and validation-selected layer probe for held-out evaluation.
+fitted confidence models and validation-selected layer probe for held-out evaluation. Paired
+bootstrap intervals directly compare the selected activation probe against the combined
+logit-feature baseline on the same questions. A separate 1:1 nearest-neighbor diagnostic compares
+discrimination after matching flipped and non-flipped examples on clean top-two logit margin.
 
 Artifacts are excluded from Git and written below `artifacts/pilot_arc/`. A run manifest records
 the resolved Hugging Face commit, package versions, answer token IDs, device, activation shape,
