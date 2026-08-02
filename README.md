@@ -78,6 +78,11 @@ so prompt-format and 1.7B comparisons were required before scaling the dataset. 
 [`prompt/model gate`](reports/prompt-model-gate.md) selected Qwen3-1.7B with the bare-letter prompt;
 pinned train, validation, and test extraction configs are under `configs/extraction/`.
 
+The first [`ARC validation probe report`](reports/arc-validation-probes.md) is a negative result:
+single-layer activation probes predict flips above chance but underperform combined logit features
+for all three perturbations. The held-out ARC test split remains untouched while the planned
+late-layer MLP is developed.
+
 ## Scope and leakage rules
 
 - The unit of splitting is always the original `question_id`; paired variants must never cross
